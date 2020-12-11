@@ -1,15 +1,15 @@
 var CACHE_NAME = '2020-12-11 22:00';
 var urlsToCache = [
-  '/touch-kanji/',
-  '/touch-kanji/index.js',
-  '/touch-kanji/drill.js',
-  '/touch-kanji/drill/',
-  '/touch-kanji/svg/eraser.svg',
-  '/touch-kanji/svg/sound.svg',
-  '/touch-kanji/mp3/correct1.mp3',
-  '/touch-kanji/mp3/correct3.mp3',
-  '/touch-kanji/mp3/incorrect1.mp3',
-  '/touch-kanji/mp3/stupid5.mp3',
+  '/touch-abc/',
+  '/touch-abc/index.js',
+  '/touch-abc/drill.js',
+  '/touch-abc/drill/',
+  '/touch-abc/svg/eraser.svg',
+  '/touch-abc/svg/sound.svg',
+  '/touch-abc/mp3/correct1.mp3',
+  '/touch-abc/mp3/correct3.mp3',
+  '/touch-abc/mp3/incorrect1.mp3',
+  '/touch-abc/mp3/stupid5.mp3',
   'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css',
 ];
 
