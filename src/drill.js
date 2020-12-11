@@ -6,7 +6,7 @@ let canvasSize = 140;
 let maxWidth = 4;
 let fontFamily = localStorage.getItem('touch-abc-font');
 if (!fontFamily) {
-  fontFamily = '"Aref Ruqaa"';
+  fontFamily = 'Aref Ruqaa';
 }
 
 function toKanji(kanjiId) {
@@ -573,7 +573,9 @@ function initQuery() {
       initQueryBase()
     });
   } catch {
-    initQueryBase();
+    document.fonts.ready.then(function() {
+      initQueryBase();
+    });
   }
 }
 // https://qiita.com/noraworld/items/2834f2e6f064e6f6d41a

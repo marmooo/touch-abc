@@ -1,4 +1,4 @@
-const correctAllAudio=new Audio('/touch-abc/mp3/correct1.mp3');const correctAudio=new Audio('/touch-abc/mp3/correct3.mp3');const incorrectAudio=new Audio('/touch-abc/mp3/incorrect1.mp3');const stupidAudio=new Audio('/touch-abc/mp3/stupid5.mp3');let canvasSize=140;let maxWidth=4;let fontFamily=localStorage.getItem('touch-abc-font');if(!fontFamily){fontFamily='"Aref Ruqaa"';}
+const correctAllAudio=new Audio('/touch-abc/mp3/correct1.mp3');const correctAudio=new Audio('/touch-abc/mp3/correct3.mp3');const incorrectAudio=new Audio('/touch-abc/mp3/incorrect1.mp3');const stupidAudio=new Audio('/touch-abc/mp3/stupid5.mp3');let canvasSize=140;let maxWidth=4;let fontFamily=localStorage.getItem('touch-abc-font');if(!fontFamily){fontFamily='Aref Ruqaa';}
 function toKanji(kanjiId){return String.fromCodePoint(parseInt('0x'+kanjiId));}
 function loadConfig(){if(localStorage.getItem('darkMode')==1){document.documentElement.dataset.theme='dark';}
 if(localStorage.getItem('hint')==1){document.getElementById('hint').innerText='EASY';}}
@@ -61,6 +61,6 @@ res='';for(var i=0;i<str.length;++i){c=str[i];if(c==c.toUpperCase()){res+=c.toLo
 return res;}
 let kanjis='';let mode='uu';function initQueryBase(){var problems1,problems2;var queries=parseQuery(location.search);mode=queries['mode'];var kanjiQuery=queries['q'];if(kanjiQuery){if(mode=='conv'){var conved=convUpperLower(kanjiQuery);problems1=kanjiQuery.split('');problems2=conved.split('');}else{problems1=kanjiQuery.split('');problems2=kanjiQuery.split('');}}else{var uppers=Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ');var lowers=Array.from('abcdefghijklmnopqrstuvwxyz');if(mode=='uu'){problems1=uppers;problems2=uppers;}else if(mode=='ul'){problems1=uppers;problems2=lowers;}else if(mode=='ll'){problems1=lowers;problems2=lowers;}else{problems1=lowers;problems2=uppers;}}
 loadDrill(problems1,problems2);document.getElementById('problems').children[0].shadowRoot.querySelector('#guard').style.height='0';}
-function initQuery(){try{new URL(fontFamily);const fontFace=new FontFace('url',`url(${fontFamily}`);fontFace.load().then(function(){document.fonts.add(fontFace);initQueryBase()});}catch{initQueryBase();}}
+function initQuery(){try{new URL(fontFamily);const fontFace=new FontFace('url',`url(${fontFamily}`);fontFace.load().then(function(){document.fonts.add(fontFace);initQueryBase()});}catch{document.fonts.ready.then(function(){initQueryBase();});}}
 function scrollEvent(e){if(e.target.tagName!='PROBLEM-BOX'&&e.target.tagName!='BUTTON'){e.preventDefault();}}
 window.addEventListener("touchstart",scrollEvent,{passive:false});window.addEventListener("touchmove",scrollEvent,{passive:false});
