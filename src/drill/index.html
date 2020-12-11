@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ja" class="bg-white">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142997649-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-142997649-1');
+    </script>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>タッチABCドリル</title>
+    <meta name="description" content="自動採点付きのABCドリルです。">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/touch-abc/sw.js');
+        });
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa&family=Sansita+Swashed&family=Neucha&family=Bree+Serif&family=Amaranth&family=ABeeZee&family=Sriracha&family=Farsan&family=Ranga&family=Delius+Swash+Caps&family=Kotta+One&family=Bellota&family=Chilanka&family=Poor+Story&family=Paprika&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/touch-abc/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/touch-abc/favicon/favicon-48x48.png">
+    <link rel="manifest" href="/touch-abc/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/touch-abc/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/touch-abc/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/touch-abc/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+    <style>
+      html { touch-action:manipulation; }
+      #problems { display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; }
+      html[data-theme="dark"] { filter: invert(1) hue-rotate(180deg) brightness(1.5); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand navbar-light">
+        <div class="container">
+          <a class="navbar-brand" href="/touch-abc/">
+            タッチABCドリル
+          </a>
+          <div class="navbar-nav">
+            <button onclick="toggleHint(this)" id="hint" type="button" class="btn btn-sm btn-secondary">HARD</button>
+            <button title="ダークモード切替" onclick="toggleDarkMode()" class="ml-2 close">🌓</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main id="container" class="container text-center">
+      <div id="problems"></div>
+      <button onclick="report(this)" class="btn btn-secondary my-4">
+        <span id="report">ぜんぶ 80 <ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby>をこえた！</span>
+        <span id="correctReport" class="d-none">クリア！ つぎに<ruby>進<rp>(</rp><rt>すす</rt><rp>)</rp></ruby>むよ！</span>
+        <span id="incorrectReport" class="d-none">80 <ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby>をこえてないよ！</span>
+      </button>
+    </main>
+    <footer class="pt-4 alert text-center">
+      <div>
+        <a class="px-1" href="/">Home</a>
+        <a class="px-1" href="/terms/">Terms</a>
+        <a class="px-1" href="https://github.com/marmooo/touch-abc">Contact</a>
+      </div>
+      <div class="text-muted">&copy; <a href="https://github.com/marmooo">marmooo</a>. All Rights Reserved.
+      </div>
+    </footer>
+    <template id="problem-box">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+      <style>
+        #info { padding-top:0.5rem; }
+        #toolbox { padding-bottom:0.5rem; }
+        #problem { width:320px; height:100%; text-align:center; padding:10px; position:relative; }
+        .words { display:inline-block; position:relative; }
+        object { display:block; border:solid 1px silver; touch-action:none; }
+        #guard { touch-action:none; position:absolute; top:0; left:0; background-color:rgba(0, 0, 0, .25); width:100%; height:100%; }
+      </style>
+      <div id="problem">
+        <div id="info"></div>
+        <div id="tehon" class="words"></div>
+        <div id="tegaki" class="words"></div>
+        <div id="toolbox">
+          <button id="scoring" class="btn btn-primary">
+            <ruby>採点<rp>(</rp><rt>さいてん</rt><rp>)</rp></ruby>する
+          </button>
+        </div>
+        <div id="guard"></div>
+      </div>
+    </template>
+    <template id="tehon-box">
+      <style>
+        .container { position:relative; }
+        canvas { width:140px; height:140px; display:block; border:solid 1px silver; }
+        #sound {
+          position:absolute; top:1px; left:1px; background-color:white; cursor:pointer;
+          -webkit-touch-callout:none; touch-action:none;
+        }
+        .d-none { display:none; }
+      </style>
+      <div class="container">
+        <canvas id="tehon" width="140" height="140"></canvas>
+        <a id="sound" target="_blank" rel="noopener noreferer">
+          <img src="/touch-abc/svg/sound.svg" width="16" height="16" alt="発音を聴く">
+        </a>
+      </div>
+    </template>
+    <template id="tegaki-box">
+      <style>
+        .container { position:relative; }
+        #tehon { display:block; border:solid 1px silver; }
+        #tegaki { position:absolute; top:0px; left:0px; border:solid 1px silver; }
+        .d-none { display:none; }
+        #eraser {
+          position:absolute; top:1px; right:1px; background-color:white; cursor:pointer;
+          -webkit-touch-callout:none; touch-action:none;
+        }
+        #score {
+          position:absolute; top:1px; left:1px;
+          width:32px; height:32px; font-size:16px; line-height:32px;
+          color:red; background-color:white; border:1px solid red; border-radius:16px;
+        }
+      </style>
+      <div class="container">
+        <canvas id="tehon" width="140" height="140"></canvas>
+        <canvas id="tegaki" width="140" height="140"></canvas>
+        <img src="/touch-abc/svg/eraser.svg" id="eraser" width="16" height="16" alt="文字を消す">
+        <div id="score" class="d-none"></div>
+      </div>
+    </template>
+    <script src="/touch-abc/drill.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@15.0.0/dist/smooth-scroll.polyfills.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+    <script>
+      initQuery();
+    </script>
+  </body>
+</html>
