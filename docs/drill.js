@@ -36,7 +36,7 @@ function loadProblem(problem,answer){var problemBox=document.createElement('prob
 setScoringButton(problemBox,tegaki,tehon,objects,tegakiPads,problem);document.getElementById('problems').appendChild(problemBox);}
 function loadDrill(problems1,problems2){for(var i=0;i<problems1.length;i++){loadProblem(problems1[i],problems2[i]);}}
 function setStrokeWidth(kakusu){return 15+6/kakusu;}
-function toggleAllStroke(){var problems=document.getElementById('problems').children;for(const problem of problems){var tegakiBoxes=problem.shadowRoot.querySelector('#tegaki').children;for(const tegakiBox of tegakiBoxes){var object=tegakiBox.shadowRoot.querySelector('object');var kanjiId=object.dataset.id;toggleStroke(object,kanjiId);}}}
+function toggleAllStroke(){var problems=document.getElementById('problems').children;for(const problem of problems){var tegakiBoxes=problem.shadowRoot.querySelector('#tegaki').children;for(const tegakiBox of tegakiBoxes){var object=tegakiBox.shadowRoot.querySelector('#tehon');var kanjiId=object.dataset.id;toggleStroke(object,kanjiId);}}}
 function toggleStroke(object,kanjiId){if(localStorage.getItem('hint')!=1){object.style.visibility='hidden';}else{object.style.visibility='visible';}}
 function countNoTransparent(data){var count=0;for(var i=3;i<data.length;i+=4){if(data[i]!=0){count+=1;}}
 return count;}
