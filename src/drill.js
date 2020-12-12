@@ -208,8 +208,10 @@ function loadFont(kanji, kanjiId, parentNode, pos, loadCanvas) {
 function showKanjiScore(kanjiScore, scoreObj, tehonKanji, object, kanjiId) {
   var kanjiScore = Math.floor(kanjiScore);
   if (kanjiScore >= 80) {
+    correctAudio.currentTime = 0;
     correctAudio.play();
   } else {
+    incorrectAudio.currentTime = 0;
     incorrectAudio.play();
   }
   scoreObj.classList.remove('d-none');
@@ -250,6 +252,10 @@ function unlockAudio() {
   correctAudio.pause();
   incorrectAudio.pause();
   stupidAudio.pause();
+  correctAllAudio.currentTime = 0;
+  correctAudio.currentTime = 0;
+  incorrectAudio.currentTime = 0;
+  stupidAudio.currentTime = 0;
   correctAllAudio.volume = 1;
   correctAudio.volume = 1;
   incorrectAudio.volume = 1;
@@ -258,8 +264,12 @@ function unlockAudio() {
 
 function setScoringButton(problemBox, tegakiPanel, tehonPanel, objects, tegakiPads, word) {
   var scoring = problemBox.shadowRoot.querySelector('#scoring');
+  var once = true;
   scoring.addEventListener('click', function() {
-    unlockAudio();
+    if (once) {
+      unlockAudio();
+      once = false;
+    }
     getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads).then(scores => {
       if (scores.every(score => score >= 80)) {
         problemBox.shadowRoot.querySelector('#guard').style.height = '100%';
@@ -471,6 +481,7 @@ function report(obj) {
   }
   score /= scores.length;
   if (score >= 80) {
+    correctAllAudio.currentTime = 0;
     correctAllAudio.play();
     document.getElementById('report').classList.add('d-none');
     document.getElementById('correctReport').classList.remove('d-none');
@@ -478,6 +489,7 @@ function report(obj) {
       location.href = '/touch-abc/';
     }, 3000);
   } else {
+    stupidAudio.currentTime = 0;
     stupidAudio.play();
     document.getElementById('report').classList.add('d-none');
     document.getElementById('incorrectReport').classList.remove('d-none');
