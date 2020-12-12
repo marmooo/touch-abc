@@ -391,7 +391,7 @@ function toggleAllStroke() {
   for (const problem of problems) {
     var tegakiBoxes = problem.shadowRoot.querySelector('#tegaki').children;
     for (const tegakiBox of tegakiBoxes) {
-      var object = tegakiBox.shadowRoot.querySelector('object');
+      var object = tegakiBox.shadowRoot.querySelector('#tehon');
       var kanjiId = object.dataset.id;
       toggleStroke(object, kanjiId);
     }
