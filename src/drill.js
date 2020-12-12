@@ -208,16 +208,14 @@ function loadFont(kanji, kanjiId, parentNode, pos, loadCanvas) {
 function showKanjiScore(kanjiScore, scoreObj, tehonKanji, object, kanjiId) {
   var kanjiScore = Math.floor(kanjiScore);
   if (kanjiScore >= 80) {
-    correctAudio.currentTime = 0;
     correctAudio.play();
   } else {
-    incorrectAudio.currentTime = 0;
     incorrectAudio.play();
   }
   scoreObj.classList.remove('d-none');
   scoreObj.innerText = kanjiScore;
   if (localStorage.getItem('hint') != 1) {
-    changeAllColor(object, kanjiId, 'lightgray');
+    object.style.visibility = 'visible';
   }
 }
 
@@ -317,7 +315,7 @@ function setEraser(tegakiPad, tegakiPanel, object, kanjiId) {
     var scoreObj = tegakiPanel.children[pos].shadowRoot.querySelector('#score');
     scoreObj.classList.add('d-none');
     if (localStorage.getItem('hint') != 1) {
-      changeAllColor(object, kanjiId, 'none');
+      object.style.visibility = 'hidden';
     }
   }
 }
@@ -436,7 +434,7 @@ function calcKanjiScore(tegakiCount, tehonCount, inclusionCount) {
   if (inclusionScore > 1) { inclusionScore = 1; }
   // 漢字と比べてかなり難しいので採点はかなりゆるくする
   // 100点が取れないので少しだけ採点を甘くする
-  var kakuScore = lineScore * inclusionScore * 100 * 2;
+  var kakuScore = lineScore * inclusionScore * 100 * 1.2;
   if (kakuScore <   0) { kakuScore =   0; }
   if (kakuScore > 100) { kakuScore = 100; }
   if (isNaN(kakuScore)) { kakuScore = 0; }
