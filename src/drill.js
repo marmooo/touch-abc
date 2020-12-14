@@ -475,15 +475,24 @@ function report(obj) {
   }
   score /= scores.length;
   if (score >= 80) {
-    correctAllAudio.currentTime = 0;
     correctAllAudio.play();
+    var clearedKanjis = localStorage.getItem('touch-abc');
+    if (clearedKanjis) {
+      kanjis.split('').forEach(kanji => {
+        if (!clearedKanjis.includes(kanji)) {
+          clearedKanjis += kanji;
+        }
+      });
+      localStorage.setItem('touch-abc', clearedKanjis);
+    } else {
+      localStorage.setItem('touch-abc', kanjis);
+    }
     document.getElementById('report').classList.add('d-none');
     document.getElementById('correctReport').classList.remove('d-none');
     setTimeout(() => {
       location.href = '/touch-abc/';
     }, 3000);
   } else {
-    stupidAudio.currentTime = 0;
     stupidAudio.play();
     document.getElementById('report').classList.add('d-none');
     document.getElementById('incorrectReport').classList.remove('d-none');
@@ -539,15 +548,15 @@ function initQueryBase() {
   var problems1, problems2;
   var queries = parseQuery(location.search);
   mode = queries['mode'];
-  var kanjiQuery = queries['q'];
-  if (kanjiQuery) {
+  kanjis = queries['q'];
+  if (kanjis) {
     if (mode == 'conv') {
-      var conved = convUpperLower(kanjiQuery);
-      problems1 = kanjiQuery.split('');
+      var conved = convUpperLower(kanjis);
+      problems1 = kanjis.split('');
       problems2 = conved.split('');
     } else {
-      problems1 = kanjiQuery.split('');
-      problems2 = kanjiQuery.split('');
+      problems1 = kanjis.split('');
+      problems2 = kanjis.split('');
     }
   } else {
     var uppers = Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
