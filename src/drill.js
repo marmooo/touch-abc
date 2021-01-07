@@ -343,6 +343,7 @@ function setSound(tehonPanel, object, kanji) {
   sound.onclick = function() {
     var msg = new SpeechSynthesisUtterance(lower);
     msg.voice = englishVoices[Math.floor(Math.random() * englishVoices.length)];
+    msg.lang = 'en-US';
     speechSynthesis.speak(msg);
   }
 }
