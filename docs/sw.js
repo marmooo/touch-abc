@@ -1,4 +1,4 @@
-var CACHE_NAME = '2021-05-04 08:50';
+var CACHE_NAME = '2021-05-15 20:50';
 var urlsToCache = [
   '/touch-abc/',
   '/touch-abc/index.js',
@@ -11,7 +11,6 @@ var urlsToCache = [
   '/touch-abc/mp3/incorrect1.mp3',
   '/touch-abc/mp3/stupid5.mp3',
   'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css',
-  'https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@15.0.0/dist/smooth-scroll.polyfills.min.js',
   'https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js',
   'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js',
   'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js',
