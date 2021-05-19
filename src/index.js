@@ -28,17 +28,6 @@ function selectFont(obj) {
   document.getElementById('selectedFont').style.fontFamily = fontFamily;
 }
 
-function setFontStyle(obj) {
-  var idx = obj.selectedIndex;
-  if (idx == 0) {
-    document.getElementById('fontsCarousel0').classList.remove('d-none');
-    document.getElementById('fontsCarousel1').classList.add('d-none');
-  } else {
-    document.getElementById('fontsCarousel0').classList.add('d-none');
-    document.getElementById('fontsCarousel1').classList.remove('d-none');
-  }
-}
-
 function setFontSelector() {
   var items = document.getElementById('fontSelector').getElementsByClassName('carousel-item');
   [...items].forEach(item => {
@@ -133,7 +122,7 @@ function generateDrill() {
 
 function setLinkTemplate() {
   var a = document.createElement('a');
-  a.className = 'mr-1 mb-1 btn btn-outline-secondary btn-sm';
+  a.className = 'me-1 mb-1 btn btn-outline-secondary btn-sm';
   return a;
 }
 const linkTemplate = setLinkTemplate();
@@ -164,4 +153,5 @@ document.getElementById('search').addEventListener('keydown', function(event) {
     location.href = `/touch-abc/drill/?q=${words}`;
   }
 }, false);
+new bootstrap.Carousel(document.getElementById('fontsCarousel'));
 
