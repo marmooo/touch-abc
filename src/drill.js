@@ -1,7 +1,7 @@
-const correctAllAudio = new Audio('/touch-abc/mp3/correct1.mp3');
-const correctAudio = new Audio('/touch-abc/mp3/correct3.mp3');
-const incorrectAudio = new Audio('/touch-abc/mp3/incorrect1.mp3');
-const stupidAudio = new Audio('/touch-abc/mp3/stupid5.mp3');
+let correctAudio, incorrectAudio, correctAllAudio, stupidAudio;
+loadAudios();
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioContext = new AudioContext();
 let canvasSize = 140;
 let maxWidth = 4;
 let fontFamily = localStorage.getItem('touch-abc-font');
@@ -59,6 +59,55 @@ function toggleScroll() {
     pinned.classList.remove('d-none');
   }
 }
+
+function playAudio(audioBuffer, volume) {
+  const audioSource = audioContext.createBufferSource();
+  audioSource.buffer = audioBuffer;
+  if (volume) {
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = volume;
+    gainNode.connect(audioContext.destination);
+    audioSource.connect(gainNode);
+    audioSource.start();
+  } else {
+    audioSource.connect(audioContext.destination);
+    audioSource.start();
+  }
+}
+
+function unlockAudio() {
+  audioContext.resume();
+}
+
+function loadAudio(url) {
+  return fetch(url)
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => {
+      return new Promise((resolve, reject) => {
+        audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
+          resolve(audioBuffer);
+        }, (err) => {
+          reject(err);
+        });
+      });
+    });
+}
+
+function loadAudios() {
+  promises = [
+    loadAudio('/touch-abc/mp3/correct3.mp3'),
+    loadAudio('/touch-abc/mp3/incorrect1.mp3'),
+    loadAudio('/touch-abc/mp3/correct1.mp3'),
+    loadAudio('/touch-abc/mp3/stupid5.mp3'),
+  ];
+  Promise.all(promises).then(audioBuffers => {
+    correctAudio = audioBuffers[0];
+    incorrectAudio = audioBuffers[1];
+    correctAllAudio = audioBuffers[2];
+    stupidAudio = audioBuffers[3];
+  });
+}
+
 
 customElements.define('problem-box', class extends HTMLElement {
   constructor() {
@@ -224,9 +273,9 @@ function loadFont(kanji, kanjiId, parentNode, pos, loadCanvas) {
 function showKanjiScore(kanjiScore, scoreObj, tehonKanji, object, kanjiId) {
   var kanjiScore = Math.floor(kanjiScore);
   if (kanjiScore >= 80) {
-    correctAudio.play();
+    playAudio(correctAudio);
   } else {
-    incorrectAudio.play();
+    playAudio(incorrectAudio);
   }
   scoreObj.classList.remove('d-none');
   scoreObj.innerText = kanjiScore;
@@ -251,21 +300,6 @@ function getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads) {
     promises[i] = kanjiScore;
   });
   return Promise.all(promises);
-}
-
-function unlockAudio(audio) {
-  audio.volume = 0;
-  audio.play();
-  audio.pause();
-  audio.currentTime = 0;
-  audio.volume = 1;
-}
-
-function unlockAudios() {
-  unlockAudio(correctAllAudio);
-  unlockAudio(correctAudio);
-  unlockAudio(incorrectAudio);
-  unlockAudio(stupidAudio);
 }
 
 function setScoringButton(problemBox, tegakiPanel, tehonPanel, objects, tegakiPads, word) {
@@ -486,7 +520,7 @@ function report(obj) {
   }
   score /= scores.length;
   if (score >= 80) {
-    correctAllAudio.play();
+    playAudio(correctAllAudio);
     var clearedKanjis = localStorage.getItem('touch-abc');
     if (clearedKanjis) {
       kanjis.split('').forEach(kanji => {
@@ -504,7 +538,7 @@ function report(obj) {
       location.href = '/touch-abc/';
     }, 3000);
   } else {
-    stupidAudio.play();
+    playAudio(stupidAudio);
     document.getElementById('report').classList.add('d-none');
     document.getElementById('incorrectReport').classList.remove('d-none');
     setTimeout(function() {
@@ -612,5 +646,5 @@ function scrollEvent(e) {
     e.preventDefault();
   }
 }
-document.addEventListener("touchstart", unlockAudios, { once:true });
+document.addEventListener('click', unlockAudio, { once:true, useCapture:true });
 
