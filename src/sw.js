@@ -1,4 +1,4 @@
-var CACHE_NAME = '2021-07-04 10:25';
+var CACHE_NAME = '2021-07-07 09:15';
 var urlsToCache = [
   '/touch-abc/',
   '/touch-abc/index.js',
@@ -10,6 +10,7 @@ var urlsToCache = [
   '/touch-abc/mp3/correct3.mp3',
   '/touch-abc/mp3/incorrect1.mp3',
   '/touch-abc/mp3/stupid5.mp3',
+  '/touch-abc/favicon/original.svg',
   '/touch-abc/signature_pad.umd.min.js',
   'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css',
   'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js',
