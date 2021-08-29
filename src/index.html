@@ -39,6 +39,7 @@
       html[data-theme="dark"] { filter: invert(1) hue-rotate(180deg); }
       @-moz-document url-prefix() { html[data-theme="dark"] { background-color:black; } }
     </style>
+    <script data-ad-client="ca-pub-6459713332128733" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   </head>
   <body>
     <header>
@@ -49,7 +50,7 @@
             タッチABCドリル
           </a>
           <div class="navbar-nav">
-            <button title="ダークモード切替" onclick="toggleDarkMode()" class="fs-4 btn p-0">🌓</button>
+            <button title="ダークモード切替" id="toggleDarkMode" class="fs-4 btn p-0">🌓</button>
           </div>
         </div>
       </nav>
@@ -69,52 +70,52 @@
               <div id="fontsCarousel" class="carousel carousel-dark slide" data-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <div onclick="selectFont(this)" id="Aref-Ruqaa" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Aref-Ruqaa" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Sansita-Swashed" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Sansita-Swashed" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Neucha" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Neucha" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Bree-Serif" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Bree-Serif" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Amaranth" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Amaranth" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="ABeeZee" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="ABeeZee" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Sriracha" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Sriracha" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Farsan" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Farsan" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Ranga" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Ranga" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Delius-Swash-Caps" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Delius-Swash-Caps" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Kotta-One" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Kotta-One" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Bellota" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Bellota" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Chilanka" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Chilanka" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Poor-Story" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Poor-Story" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Paprika" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Paprika" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                   <div class="carousel-item">
-                    <div onclick="selectFont(this)" id="Nicone" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
+                    <div id="Nicone" class="selectFont text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
                   </div>
                 </div>
                 <a class="carousel-control-prev" href="#fontsCarousel" role="button" data-slide="prev">
@@ -135,7 +136,7 @@
               <div class="input-group">
                 <label>URLから<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>:</label>
                 <input id="fontURL" type="text" class="form-control w-auto ms-1" placeholder="https://fonts.googleapis.com/...">
-                <div class="input-group-append"><button onclick="selectFontFromURL(this)" class="input-group-text">参照</button></div>
+                <div class="input-group-append"><button id="selectFontFromURL" class="input-group-text">参照</button></div>
               </div>
               <div id="fontLoadError" class="alert alert-warning text-center d-none">
                 フォントのURLを入力してください (例: .ttf, .woff, .woff2)
@@ -197,7 +198,7 @@
             <p><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>を<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、ドリルが<ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>れます。</p>
             <div class="d-flex justify-content-center">
               <input id="search" class="form-control w-50" type="text" placeholder="a, b, abc, etc.">
-              <button onclick="generateDrill()" class="btn" title="生成">
+              <button id="generateDrill" class="btn" title="生成">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
                   <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
@@ -208,7 +209,7 @@
         </div>
       </div>
       <div class="pt-4 text-right">
-        <button onclick="deleteData()" class="btn" title="データ消去">
+        <button id="deleteData" class="btn" title="データ消去">
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
           <small>データ<ruby>消去<rp>(</rp><rt>しょうきょ</rt><rp>)</rp></ruby></small>
         </button>
