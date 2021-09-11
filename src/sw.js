@@ -1,4 +1,4 @@
-var CACHE_NAME = "2021-08-30 07:55";
+var CACHE_NAME = '2021-09-12 08:36';
 var urlsToCache = [
   "/touch-abc/",
   "/touch-abc/index.js",
@@ -12,8 +12,8 @@ var urlsToCache = [
   "/touch-abc/mp3/stupid5.mp3",
   "/touch-abc/favicon/original.svg",
   "/touch-abc/signature_pad.umd.min.js",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js",
+  "https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css",
+  "https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js",
   "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js",
   "https://fonts.googleapis.com/css2?family=Aref+Ruqaa&family=Sansita+Swashed&family=Neucha&family=Bree+Serif&family=Amaranth&family=ABeeZee&family=Sriracha&family=Farsan&family=Ranga&family=Delius+Swash+Caps&family=Kotta+One&family=Bellota&family=Chilanka&family=Poor+Story&family=Paprika&display=swap",
 ];
