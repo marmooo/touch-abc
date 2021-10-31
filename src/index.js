@@ -72,7 +72,7 @@ function setCleared(obj) {
   if (clearedKanjis) {
     const problems = obj.children;
     for (let i = 0; i < problems.length; i++) {
-      if (clearedKanjis.includes(problems[i].innerText)) {
+      if (clearedKanjis.includes(problems[i].textContent)) {
         problems[i].classList.remove("btn-outline-secondary");
         problems[i].classList.add("btn-secondary");
       }
@@ -107,7 +107,7 @@ function setProblems(obj, kanjis) {
     const problem = kanjis[i].repeat(6);
     const a = linkTemplate.cloneNode();
     a.href = `/touch-abc/drill/?q=${problem}`;
-    a.innerText = kanjis[i];
+    a.textContent = kanjis[i];
     obj.appendChild(a);
   }
 }
