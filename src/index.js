@@ -87,7 +87,7 @@ function deleteData() {
 
 function generateDrill() {
   const words = document.getElementById("search").value;
-  if (words && words.match(/^[a-zA-Z]+$/)) {
+  if (words && /^[a-zA-Z]+$/.test(words)) {
     location.href = `/touch-abc/drill/?q=${words}`;
   }
 }

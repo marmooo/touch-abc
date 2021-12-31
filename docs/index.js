@@ -7,7 +7,7 @@ function loadConfig(){if(localStorage.getItem("darkMode")==1){document.documentE
 function toggleDarkMode(){if(localStorage.getItem("darkMode")==1){localStorage.setItem("darkMode",0);delete document.documentElement.dataset.theme;}else{localStorage.setItem("darkMode",1);document.documentElement.dataset.theme="dark";}}
 function setCleared(obj){const clearedKanjis=localStorage.getItem("touch-abc");if(clearedKanjis){const problems=obj.children;for(let i=0;i<problems.length;i++){if(clearedKanjis.includes(problems[i].textContent)){problems[i].classList.remove("btn-outline-secondary");problems[i].classList.add("btn-secondary");}}}}
 function deleteData(){localStorage.removeItem("touch-abc");location.reload();}
-function generateDrill(){const words=document.getElementById("search").value;if(words&&words.match(/^[a-zA-Z]+$/)){location.href=`/touch-abc/drill/?q=${words}`;}}
+function generateDrill(){const words=document.getElementById("search").value;if(words&&/^[a-zA-Z]+$/.test(words)){location.href=`/touch-abc/drill/?q=${words}`;}}
 function setLinkTemplate(){const a=document.createElement("a");a.className="me-1 mb-1 btn btn-outline-secondary btn-sm";return a;}
 const linkTemplate=setLinkTemplate();function setProblems(obj,kanjis){while(obj.lastElementChild){obj.removeChild(obj.lastChild);}
 for(let i=0;i<kanjis.length;i++){const problem=kanjis[i].repeat(6);const a=linkTemplate.cloneNode();a.href=`/touch-abc/drill/?q=${problem}`;a.textContent=kanjis[i];obj.appendChild(a);}}
