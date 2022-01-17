@@ -473,6 +473,8 @@ function calcKanjiScore(tegakiCount, tehonCount, inclusionCount) {
 
 function getKanjiScore(tegakiData, object) {
   const markerWidth = maxWidth * 3;
+  tegakiData.minWidth = markerWidth;
+  tegakiData.maxWidth = markerWidth;
   const markerCanvas = document.createElement("canvas");
   markerCanvas.setAttribute("width", canvasSize);
   markerCanvas.setAttribute("height", canvasSize);
