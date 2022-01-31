@@ -473,7 +473,7 @@ function calcKanjiScore(tegakiCount, tehonCount, inclusionCount) {
 
 function getKanjiScore(tegakiData, object) {
   const markerWidth = maxWidth * 3;
-  tegakiData.forEach(kakuData => {
+  tegakiData.forEach((kakuData) => {
     kakuData.minWidth = markerWidth;
     kakuData.maxWidth = markerWidth;
   });
