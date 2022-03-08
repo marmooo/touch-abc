@@ -517,15 +517,17 @@ function report() {
   if (score >= 80) {
     playAudio(correctAllAudio);
     let clearedKanjis = localStorage.getItem("touch-abc");
-    if (clearedKanjis) {
-      kanjis.split("").forEach((kanji) => {
-        if (!clearedKanjis.includes(kanji)) {
-          clearedKanjis += kanji;
-        }
-      });
-      localStorage.setItem("touch-abc", clearedKanjis);
-    } else {
-      localStorage.setItem("touch-abc", kanjis);
+    if (kanjis) {
+      if (clearedKanjis) {
+        kanjis.split("").forEach((kanji) => {
+          if (!clearedKanjis.includes(kanji)) {
+            clearedKanjis += kanji;
+          }
+        });
+        localStorage.setItem("touch-abc", clearedKanjis);
+      } else {
+        localStorage.setItem("touch-abc", kanjis);
+      }
     }
     document.getElementById("report").classList.add("d-none");
     document.getElementById("correctReport").classList.remove("d-none");
