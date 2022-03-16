@@ -1,3 +1,4 @@
+let englishVoices = [];
 let correctAudio, incorrectAudio, correctAllAudio, stupidAudio;
 loadAudios();
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -357,7 +358,6 @@ function setEraser(tegakiPad, tegakiPanel, tehonPanel, object) {
     };
 }
 
-let englishVoices = [];
 function loadVoices() {
   // https://stackoverflow.com/questions/21513706/
   const allVoicesObtained = new Promise(function (resolve) {
@@ -365,10 +365,17 @@ function loadVoices() {
     if (voices.length !== 0) {
       resolve(voices);
     } else {
+      let supported = false;
       speechSynthesis.addEventListener("voiceschanged", function () {
+        supported = true;
         voices = speechSynthesis.getVoices();
         resolve(voices);
       });
+      setTimeout(() => {
+        if (!supported) {
+          document.getElementById("noTTS").classList.remove("d-none");
+        }
+      }, 1000);
     }
   });
   allVoicesObtained.then((voices) => {
