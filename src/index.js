@@ -51,9 +51,18 @@ function setFontSelector() {
   });
 }
 
+function changeLevel() {
+  const level = this.selectedIndex;
+  localStorage.setItem("touch-abc-level", level);
+}
+
 function loadConfig() {
   if (localStorage.getItem("darkMode") == 1) {
     document.documentElement.dataset.theme = "dark";
+  }
+  if (localStorage.getItem("touch-abc-level")) {
+    const level = parseInt(localStorage.getItem("touch-abc-level"));
+    document.getElementById("levelOption").options[level].selected = true;
   }
 }
 
@@ -129,6 +138,7 @@ document.getElementById("selectFontFromURL").onclick = deleteData;
 ].forEach((obj) => {
   obj.onclick = selectFont;
 });
+document.getElementById("levelOption").onchange = changeLevel;
 document.getElementById("search").addEventListener("keydown", function (event) {
   if (event.key == "Enter") {
     const words = this.value;
