@@ -1,8 +1,10 @@
 let englishVoices=[];let correctAudio,incorrectAudio,correctAllAudio,stupidAudio;loadAudios();const AudioContext=window.AudioContext||window.webkitAudioContext;const audioContext=new AudioContext();const canvasSize=140;const maxWidth=4;let level=2;let fontFamily=localStorage.getItem("touch-abc-font");if(!fontFamily){fontFamily="Aref Ruqaa";}
-function loadConfig(){if(localStorage.getItem("darkMode")==1){document.documentElement.dataset.theme="dark";}
+loadConfig();function loadConfig(){if(localStorage.getItem("darkMode")==1){document.documentElement.dataset.theme="dark";}
 if(localStorage.getItem("hint")==1){document.getElementById("hint").textContent="EASY";}
-if(localStorage.getItem("touch-abc-level")){level=parseInt(localStorage.getItem("touch-abc-level"));}}
-loadConfig();function toggleDarkMode(){if(localStorage.getItem("darkMode")==1){localStorage.setItem("darkMode",0);delete document.documentElement.dataset.theme;}else{localStorage.setItem("darkMode",1);document.documentElement.dataset.theme="dark";}}
+if(localStorage.getItem("touch-abc-level")){level=parseInt(localStorage.getItem("touch-abc-level"));}
+if(localStorage.getItem("furigana")==1){addFurigana();}}
+function toggleDarkMode(){if(localStorage.getItem("darkMode")==1){localStorage.setItem("darkMode",0);delete document.documentElement.dataset.theme;}else{localStorage.setItem("darkMode",1);document.documentElement.dataset.theme="dark";}}
+async function addFurigana(){const module=await import("https://marmooo.github.io/yomico/yomico.min.js");module.yomico("/touch-abc/drill/index.yomi");}
 function toggleHint(obj){if(localStorage.getItem("hint")==1){localStorage.setItem("hint",0);obj.textContent="HARD";}else{localStorage.setItem("hint",1);obj.textContent="EASY";}
 toggleAllStroke();}
 function toggleScroll(){const scrollable=document.getElementById("scrollable");const pinned=document.getElementById("pinned");if(scrollable.classList.contains("d-none")){window.removeEventListener("touchstart",scrollEvent,{passive:false});window.removeEventListener("touchmove",scrollEvent,{passive:false});scrollable.classList.remove("d-none");pinned.classList.add("d-none");}else{window.addEventListener("touchstart",scrollEvent,{passive:false});window.addEventListener("touchmove",scrollEvent,{passive:false});scrollable.classList.add("d-none");pinned.classList.remove("d-none");}}

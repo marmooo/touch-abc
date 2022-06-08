@@ -1,9 +1,11 @@
-var CACHE_NAME = '2022-05-26 12:25';
+var CACHE_NAME = "2022-06-09 00:30";
 var urlsToCache = [
   "/touch-abc/",
+  "/touch-abc/index.yomi",
+  "/touch-abc/drill/",
+  "/touch-abc/drill/index.yomi",
   "/touch-abc/index.js",
   "/touch-abc/drill.js",
-  "/touch-abc/drill/",
   "/touch-abc/svg/eraser.svg",
   "/touch-abc/svg/sound.svg",
   "/touch-abc/mp3/correct1.mp3",
@@ -11,6 +13,7 @@ var urlsToCache = [
   "/touch-abc/mp3/incorrect1.mp3",
   "/touch-abc/mp3/stupid5.mp3",
   "/touch-abc/favicon/favicon.svg",
+  "https://marmooo.github.io/yomico/yomico.min.js",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js",
   "https://cdn.jsdelivr.net/npm/signature_pad@4.0.4/dist/signature_pad.umd.min.js",

@@ -61,6 +61,7 @@
               <option>きれい</option>
               <option>むずかしい</option>
             </select>
+            <button title="ふりがな" id="addFurigana" class="fs-4 btn p-0 ms-1">👧</button>
             <button title="ダークモード切替" id="toggleDarkMode" class="fs-4 btn p-0 ms-1">🌓</button>
           </div>
         </div>
@@ -70,14 +71,13 @@
       <noscript>
         <div class="alert alert-warning">JavaScript を ON にしてください</div>
       </noscript>
-      <p><ruby>自動採点<rp>(</rp><rt>じどうさいてん</rt><rp>)</rp></ruby>つきのABCドリルです。
-      80<ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby><ruby>以上<rp>(</rp><rt>いじょう</rt><rp>)</rp></ruby>になるまでやってみよう。</p>
+      <p>自動採点つきのABCドリルです。80点以上になるまでやってみよう。</p>
       <div class="card mt-3">
-        <h5 class="card-header ruby"><ruby>書体<rp>(</rp><rt>しょたい</rt><rp>)</rp></ruby>をきめる</h5>
+        <h5 class="card-header ruby">書体をきめる</h5>
         <div class="card-body">
           <div class="row">
             <div id="fontSelector" class="col-md">
-              <h6>タッチで<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby></h6>
+              <h6>タッチで選択</h6>
               <div id="fontsCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
@@ -140,12 +140,12 @@
               </div>
             </div>
             <div class="col-md">
-              <h6><ruby>選択中<rp>(</rp><rt>せんたくちゅう</rt><rp>)</rp></ruby></h6>
+              <h6>選択中</h6>
               <div id="selectedFont" class="text-center pt-2 pb-3 h2 text-break">abcdefghijklmnopqrstuvwxyz</div>
             </div>
             <div class="col-lg pt-3">
               <div class="input-group">
-                <label>URLから<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>:</label>
+                <label>URLから選択:</label>
                 <input id="fontURL" type="text" class="form-control w-auto ms-1" placeholder="https://fonts.googleapis.com/...">
                 <div class="input-group-append"><button id="selectFontFromURL" class="input-group-text">参照</button></div>
               </div>
@@ -162,7 +162,7 @@
         </div>
       </div>
       <div class="card mt-3">
-        <h5 class="card-header ruby">アルファベット<ruby>一覧<rp>(</rp><rt>いちらん</rt><rp>)</rp></ruby></h5>
+        <h5 class="card-header ruby">アルファベット一覧</h5>
         <div class="card-body">
           <div class="text-center pb-3">
             <a href="/touch-abc/drill/?mode=uu" class="btn btn-primary m-1" role="button">
@@ -206,7 +206,7 @@
             </a>
           </div>
           <div class="pt-3">
-            <p><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>を<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、ドリルが<ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>れます。</p>
+            <p>文字を指定すると、ドリルが作れます。</p>
             <div class="d-flex justify-content-center">
               <input title="ドリルの漢字" id="search" class="form-control w-50" type="text" placeholder="a, b, abc, etc.">
               <button title="ドリルを作成" id="generateDrill" class="btn">
@@ -222,7 +222,7 @@
       <div class="pt-4 text-right">
         <button id="deleteData" class="btn" title="データ消去">
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-          <small>データ<ruby>消去<rp>(</rp><rt>しょうきょ</rt><rp>)</rp></ruby></small>
+          <small>データ消去</small>
         </button>
       </div>
     </main>

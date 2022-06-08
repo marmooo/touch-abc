@@ -10,6 +10,7 @@ let fontFamily = localStorage.getItem("touch-abc-font");
 if (!fontFamily) {
   fontFamily = "Aref Ruqaa";
 }
+loadConfig();
 
 function loadConfig() {
   if (localStorage.getItem("darkMode") == 1) {
@@ -21,8 +22,10 @@ function loadConfig() {
   if (localStorage.getItem("touch-abc-level")) {
     level = parseInt(localStorage.getItem("touch-abc-level"));
   }
+  if (localStorage.getItem("furigana") == 1) {
+    addFurigana();
+  }
 }
-loadConfig();
 
 function toggleDarkMode() {
   if (localStorage.getItem("darkMode") == 1) {
@@ -32,6 +35,11 @@ function toggleDarkMode() {
     localStorage.setItem("darkMode", 1);
     document.documentElement.dataset.theme = "dark";
   }
+}
+
+async function addFurigana() {
+  const module = await import("https://marmooo.github.io/yomico/yomico.min.js");
+  module.yomico("/touch-abc/drill/index.yomi");
 }
 
 function toggleHint(obj) {
