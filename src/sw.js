@@ -1,4 +1,4 @@
-var CACHE_NAME = "2022-11-07 20:48";
+var CACHE_NAME = "2022-11-16 00:15";
 var urlsToCache = [
   "/touch-abc/",
   "/touch-abc/index.yomi",
