@@ -147,16 +147,15 @@ setProblems(problems, alphabets);
 setCleared(problems);
 setFontSelector();
 
+const fontsCarousel = document.getElementById("fontsCarousel");
+new bootstrap.Carousel(fontsCarousel);
+
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("addFurigana").onclick = addFurigana;
 document.getElementById("generateDrill").onclick = generateDrill;
 document.getElementById("deleteData").onclick = deleteData;
 document.getElementById("selectFontFromURL").onclick = deleteData;
-[
-  ...document.getElementById("fontsCarousel").getElementsByClassName(
-    "selectFont",
-  ),
-].forEach((obj) => {
+[...fontsCarousel.getElementsByClassName("selectFont")].forEach((obj) => {
   obj.onclick = selectFont;
 });
 document.getElementById("levelOption").onchange = changeLevel;
@@ -166,7 +165,6 @@ document.getElementById("search").addEventListener("keydown", function (event) {
     location.href = `/touch-abc/drill/?q=${words}`;
   }
 }, false);
-new bootstrap.Carousel(document.getElementById("fontsCarousel"));
 
 // disable troublesome iOS features
 // - double tap zoom
