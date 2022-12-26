@@ -655,7 +655,9 @@ document.addEventListener("click", unlockAudio, {
 });
 
 // disable troublesome iOS features
-// - double tap zoom
-document.ondblclick = (e) => {
-  e.preventDefault();
-};
+if (/Macintosh/.test(navigator.userAgent)) {
+  // double tap zoom
+  document.ondblclick = (e) => {
+    e.preventDefault();
+  };
+}
