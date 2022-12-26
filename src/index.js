@@ -135,6 +135,7 @@ function setProblems(obj, kanjis) {
     const problem = kanjis[i].repeat(6);
     const a = linkTemplate.cloneNode();
     a.href = `/touch-abc/drill/?q=${problem}`;
+    a.role = "button";
     a.textContent = kanjis[i];
     obj.appendChild(a);
   }
