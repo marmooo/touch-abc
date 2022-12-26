@@ -165,12 +165,3 @@ document.getElementById("search").addEventListener("keydown", function (event) {
     location.href = `/touch-abc/drill/?q=${words}`;
   }
 }, false);
-
-// disable troublesome iOS features
-// - double tap zoom
-document.ondblclick = (e) => {
-  e.preventDefault();
-};
-// - selection context menu
-// TODO: need better solution
-document.body.style.webkitUserSelect = "none";
