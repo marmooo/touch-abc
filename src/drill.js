@@ -276,7 +276,7 @@ function setScoringButton(
   word,
 ) {
   const scoring = problemBox.shadowRoot.querySelector(".scoring");
-  scoring.addEventListener("click", function () {
+  scoring.addEventListener("click", () => {
     getProblemScores(tegakiPanel, objects, tegakiPads).then(
       (scores) => {
         if (scores.every((score) => score >= 80)) {
@@ -344,13 +344,13 @@ function setEraser(tegakiPad, tegakiPanel, tehonPanel, object) {
 
 function loadVoices() {
   // https://stackoverflow.com/questions/21513706/
-  const allVoicesObtained = new Promise(function (resolve) {
+  const allVoicesObtained = new Promise((resolve) => {
     let voices = speechSynthesis.getVoices();
     if (voices.length !== 0) {
       resolve(voices);
     } else {
       let supported = false;
-      speechSynthesis.addEventListener("voiceschanged", function () {
+      speechSynthesis.addEventListener("voiceschanged", () => {
         supported = true;
         voices = speechSynthesis.getVoices();
         resolve(voices);
@@ -372,7 +372,7 @@ function setSound(tehonPanel, object, kanji) {
   const pos = parseInt(object.dataset.pos);
   const sound = tehonPanel.children[pos].shadowRoot.querySelector(".sound");
   const lower = kanji.toLowerCase();
-  sound.onclick = function () {
+  sound.onclick = () => {
     const msg = new SpeechSynthesisUtterance(lower);
     msg.voice = englishVoices[Math.floor(Math.random() * englishVoices.length)];
     msg.lang = "en-US";
@@ -545,7 +545,7 @@ function report() {
     playAudio(stupidAudio);
     document.getElementById("report").classList.add("d-none");
     document.getElementById("incorrectReport").classList.remove("d-none");
-    setTimeout(function () {
+    setTimeout(() => {
       document.getElementById("report").classList.remove("d-none");
       document.getElementById("incorrectReport").classList.add("d-none");
     }, 6000);
@@ -622,12 +622,12 @@ function initQuery() {
   try {
     new URL(fontFamily);
     const fontFace = new FontFace("url", `url(${fontFamily}`);
-    fontFace.load().then(function () {
+    fontFace.load().then(() => {
       document.fonts.add(fontFace);
       initQueryBase();
     });
   } catch {
-    document.fonts.ready.then(function () {
+    document.fonts.ready.then(() => {
       initQueryBase();
     });
   }
