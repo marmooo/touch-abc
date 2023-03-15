@@ -159,9 +159,9 @@ document.getElementById("selectFontFromURL").onclick = deleteData;
   obj.onclick = selectFont;
 });
 document.getElementById("levelOption").onchange = changeLevel;
-document.getElementById("search").addEventListener("keydown", function (event) {
+document.getElementById("search").addEventListener("keydown", (event) => {
   if (event.key == "Enter") {
-    const words = this.value;
+    const words = event.target.value;
     location.href = `/touch-abc/drill/?q=${words}`;
   }
 }, false);
