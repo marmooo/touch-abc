@@ -584,17 +584,6 @@ function report() {
   }
 }
 
-function parseQuery(queryString) {
-  const query = {};
-  const pairs = (queryString[0] === "?" ? queryString.substr(1) : queryString)
-    .split("&");
-  for (let i = 0; i < pairs.length; i++) {
-    const pair = pairs[i].split("=");
-    query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || "");
-  }
-  return query;
-}
-
 function convUpperLower(str) {
   a;
   res = "";
@@ -615,9 +604,9 @@ let kanjis = "";
 let mode = "uu";
 function initQueryBase() {
   let problems1, problems2;
-  const queries = parseQuery(location.search);
-  mode = queries["mode"];
-  kanjis = queries["q"];
+  const query = new URLSearchParams(location.search);
+  mode = query.get("mode");
+  kanjis = query.get("q");
   if (kanjis) {
     if (mode == "conv") {
       const conved = convUpperLower(kanjis);
