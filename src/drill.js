@@ -479,7 +479,7 @@ function getScoringFactor(level) {
 
 function calcKanjiScore(tegakiCount, tehonCount, inclusionCount) {
   // 線長を優遇し過ぎると ["未","末"], ["土","士"] の見分けができなくなる (10% 許容)
-  let lineScore = (1 - Math.abs((tehonCount - tegakiCount) / tehonCount));
+  let lineScore = 1 - Math.abs((tehonCount - tegakiCount) / tehonCount);
   if (lineScore > 1) lineScore = 1;
   // 画ごとに判定していないので厳しく設定
   // 包含率を優遇し過ぎると ["一","つ"], ["二","＝"] の見分けができなくなる (30% 許容)
@@ -502,7 +502,8 @@ function getKanjiScore(tegakiData, object) {
   const markerCanvas = document.createElement("canvas");
   markerCanvas.setAttribute("width", canvasSize);
   markerCanvas.setAttribute("height", canvasSize);
-  const markerContext = markerCanvas.getContext("2d");
+  const markerContext = markerCanvas
+    .getContext("2d", { willReadFrequently: true });
   const markerPad = new SignaturePad(markerCanvas, {
     minWidth: markerWidth,
     maxWidth: markerWidth,
