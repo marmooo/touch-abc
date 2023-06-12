@@ -100,42 +100,35 @@ function unlockAudio() {
   audioContext.resume();
 }
 
-customElements.define(
-  "problem-box",
-  class extends HTMLElement {
-    constructor() {
-      super();
-      const template = document.getElementById("problem-box").content.cloneNode(
-        true,
-      );
-      this.attachShadow({ mode: "open" }).appendChild(template);
-    }
-  },
-);
-customElements.define(
-  "tehon-box",
-  class extends HTMLElement {
-    constructor() {
-      super();
-      const template = document.getElementById("tehon-box").content.cloneNode(
-        true,
-      );
-      this.attachShadow({ mode: "open" }).appendChild(template);
-    }
-  },
-);
-customElements.define(
-  "tegaki-box",
-  class extends HTMLElement {
-    constructor() {
-      super();
-      const template = document.getElementById("tegaki-box").content.cloneNode(
-        true,
-      );
-      this.attachShadow({ mode: "open" }).appendChild(template);
-    }
-  },
-);
+class ProblemBox extends HTMLElement {
+  constructor() {
+    super();
+    const template = document.getElementById("problem-box")
+      .content.cloneNode(true);
+    this.attachShadow({ mode: "open" }).appendChild(template);
+  }
+}
+customElements.define("problem-box", ProblemBox);
+
+class TehonBox extends HTMLElement {
+  constructor() {
+    super();
+    const template = document.getElementById("tehon-box")
+      .content.cloneNode(true);
+    this.attachShadow({ mode: "open" }).appendChild(template);
+  }
+}
+customElements.define("tehon-box", TehonBox);
+
+class TegakiBox extends HTMLElement {
+  constructor() {
+    super();
+    const template = document.getElementById("tegaki-box")
+      .content.cloneNode(true);
+    this.attachShadow({ mode: "open" }).appendChild(template);
+  }
+}
+customElements.define("tegaki-box", TegakiBox);
 
 // フォントに weight が用意されているとは限らないため、
 // 手書きの太さに合わせて bold 処理
@@ -196,9 +189,9 @@ function drawFont(canvas, kanji, loadCanvas) {
 function loadFont(kanji, kanjiId, parentNode, pos, loadCanvas) {
   let box;
   if (loadCanvas) {
-    box = document.createElement("tegaki-box");
+    box = new TegakiBox();
   } else {
-    box = document.createElement("tehon-box");
+    box = new TehonBox();
   }
   // // SVG はセキュリティ上 Web フォントは dataURI で埋め込む必要がある
   // // 重過ぎるので canvas でレンダリングすべき
@@ -396,7 +389,7 @@ function setSound(tehonPanel, object, kanji) {
 }
 
 function loadProblem(problem, answer) {
-  const problemBox = document.createElement("problem-box");
+  const problemBox = new ProblemBox();
   const shadow = problemBox.shadowRoot;
   const objects = [];
   const tegakiPads = [];
