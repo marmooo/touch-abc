@@ -2,6 +2,31 @@ const uppers = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 const lowers = Array.from("abcdefghijklmnopqrstuvwzyz");
 loadConfig();
 
+function loadConfig() {
+  if (localStorage.getItem("darkMode") == 1) {
+    document.documentElement.setAttribute("data-bs-theme", "dark");
+  }
+  if (localStorage.getItem("touch-abc-level")) {
+    const level = parseInt(localStorage.getItem("touch-abc-level"));
+    document.getElementById("levelOption").options[level].selected = true;
+  }
+  if (localStorage.getItem("furigana") == 1) {
+    const obj = document.getElementById("addFurigana");
+    addFurigana(obj);
+    obj.setAttribute("data-done", true);
+  }
+}
+
+function toggleDarkMode() {
+  if (localStorage.getItem("darkMode") == 1) {
+    localStorage.setItem("darkMode", 0);
+    document.documentElement.setAttribute("data-bs-theme", "light");
+  } else {
+    localStorage.setItem("darkMode", 1);
+    document.documentElement.setAttribute("data-bs-theme", "dark");
+  }
+}
+
 function selectFontFromURL() {
   this.classList.add("disabled");
   const url = document.getElementById("fontURL").value;
@@ -54,31 +79,6 @@ function setFontSelector() {
 function changeLevel() {
   const level = this.selectedIndex;
   localStorage.setItem("touch-abc-level", level);
-}
-
-function loadConfig() {
-  if (localStorage.getItem("darkMode") == 1) {
-    document.documentElement.dataset.theme = "dark";
-  }
-  if (localStorage.getItem("touch-abc-level")) {
-    const level = parseInt(localStorage.getItem("touch-abc-level"));
-    document.getElementById("levelOption").options[level].selected = true;
-  }
-  if (localStorage.getItem("furigana") == 1) {
-    const obj = document.getElementById("addFurigana");
-    addFurigana(obj);
-    obj.setAttribute("data-done", true);
-  }
-}
-
-function toggleDarkMode() {
-  if (localStorage.getItem("darkMode") == 1) {
-    localStorage.setItem("darkMode", 0);
-    delete document.documentElement.dataset.theme;
-  } else {
-    localStorage.setItem("darkMode", 1);
-    document.documentElement.dataset.theme = "dark";
-  }
 }
 
 function addFurigana() {
