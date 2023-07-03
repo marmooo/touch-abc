@@ -95,16 +95,16 @@ function addFurigana() {
   }
 }
 
-function setCleared(obj) {
+function setCleared() {
   const clearedKanjis = localStorage.getItem("touch-abc");
   if (clearedKanjis) {
-    const problems = obj.children;
-    for (let i = 0; i < problems.length; i++) {
-      if (clearedKanjis.includes(problems[i].textContent)) {
-        problems[i].classList.remove("btn-outline-secondary");
-        problems[i].classList.add("btn-secondary");
+    const problems = [...document.getElementById("problems").children];
+    problems.forEach((problem) => {
+      if (clearedKanjis.includes(problem.textContent)) {
+        problem.classList.remove("btn-outline-secondary");
+        problem.classList.add("btn-secondary");
       }
-    }
+    });
   }
 }
 
@@ -120,31 +120,21 @@ function generateDrill() {
   }
 }
 
-function setLinkTemplate() {
-  const a = document.createElement("a");
-  a.className = "me-1 mb-1 btn btn-outline-secondary btn-sm";
-  return a;
-}
-const linkTemplate = setLinkTemplate();
-
-function setProblems(obj, kanjis) {
-  while (obj.lastElementChild) {
-    obj.removeChild(obj.lastChild);
-  }
-  for (let i = 0; i < kanjis.length; i++) {
-    const problem = kanjis[i].repeat(6);
-    const a = linkTemplate.cloneNode();
-    a.href = `/touch-abc/drill/?q=${problem}`;
-    a.role = "button";
-    a.textContent = kanjis[i];
-    obj.appendChild(a);
-  }
+function setProblems() {
+  let html = "";
+  const problems = document.getElementById("problems");
+  const alphabets = uppers.concat(lowers);
+  alphabets.forEach((alphabet) => {
+    const q = alphabet.repeat(6);
+    const url = `/touch-abc/drill/?q=${q}`;
+    const klass = "me-1 mb-1 btn btn-sm btn-outline-secondary";
+    html += `<a href="${url}" class="${klass}">${alphabet}</a>`;
+  });
+  problems.innerHTML = html;
 }
 
-const problems = document.getElementById("cleared50on");
-const alphabets = uppers.concat(lowers);
-setProblems(problems, alphabets);
-setCleared(problems);
+setProblems();
+setCleared();
 setFontSelector();
 
 const fontsCarousel = document.getElementById("fontsCarousel");
