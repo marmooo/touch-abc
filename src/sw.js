@@ -1,4 +1,4 @@
-var CACHE_NAME = "2023-07-03 14:50";
+var CACHE_NAME = "2023-07-04 00:00";
 var urlsToCache = [
   "/touch-abc/",
   "/touch-abc/index.yomi",
@@ -6,8 +6,6 @@ var urlsToCache = [
   "/touch-abc/drill/index.yomi",
   "/touch-abc/index.js",
   "/touch-abc/drill.js",
-  "/touch-abc/svg/eraser.svg",
-  "/touch-abc/svg/sound.svg",
   "/touch-abc/mp3/correct1.mp3",
   "/touch-abc/mp3/correct3.mp3",
   "/touch-abc/mp3/incorrect1.mp3",
