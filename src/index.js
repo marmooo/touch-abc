@@ -144,7 +144,7 @@ document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("addFurigana").onclick = addFurigana;
 document.getElementById("generateDrill").onclick = generateDrill;
 document.getElementById("deleteData").onclick = deleteData;
-document.getElementById("selectFontFromURL").onclick = deleteData;
+document.getElementById("selectFontFromURL").onclick = selectFontFromURL;
 [...fontsCarousel.getElementsByClassName("selectFont")].forEach((obj) => {
   obj.onclick = selectFont;
 });
