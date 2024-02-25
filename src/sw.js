@@ -1,4 +1,4 @@
-const CACHE_NAME = "2023-12-27 00:50";
+const CACHE_NAME = "2024-02-25 09:42";
 const urlsToCache = [
   "/touch-abc/",
   "/touch-abc/index.yomi",
@@ -12,7 +12,7 @@ const urlsToCache = [
   "/touch-abc/mp3/stupid5.mp3",
   "/touch-abc/favicon/favicon.svg",
   "https://marmooo.github.io/yomico/yomico.min.js",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js",
+  "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
   "https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js",
   "https://fonts.googleapis.com/css2?family=Aref+Ruqaa&family=Sansita+Swashed&family=Neucha&family=Bree+Serif&family=Amaranth&family=ABeeZee&family=Sriracha&family=Farsan&family=Ranga&family=Delius+Swash+Caps&family=Kotta+One&family=Bellota&family=Chilanka&family=Poor+Story&family=Paprika&display=swap",
 ];
