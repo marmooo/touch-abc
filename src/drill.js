@@ -306,7 +306,9 @@ function setScoringButton(
           problemBox.shadowRoot.querySelector(".guard").style.height = "100%";
           const next = problemBox.nextElementSibling;
           if (next) {
-            if (!document.getElementById("voiceOn").classList.contains("d-none")) {
+            const voiceOff = document.getElementById("voiceOn")
+              .classList.contains("d-none");
+            if (!voiceOff) {
               loopVoice(kanjis[clearCount].toLowerCase(), repeatCount);
             }
             next.shadowRoot.querySelector(".guard").style.height = "0";
