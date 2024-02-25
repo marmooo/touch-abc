@@ -71,14 +71,13 @@ function toggleHint(obj) {
 function toggleScroll() {
   const scrollable = document.getElementById("scrollable");
   const pinned = document.getElementById("pinned");
+  const container = document.getElementById("container");
   if (scrollable.classList.contains("d-none")) {
-    window.removeEventListener("touchstart", scrollEvent, { passive: false });
-    window.removeEventListener("touchmove", scrollEvent, { passive: false });
+    container.removeEventListener("touchmove", stopScrollEvent);
     scrollable.classList.remove("d-none");
     pinned.classList.add("d-none");
   } else {
-    window.addEventListener("touchstart", scrollEvent, { passive: false });
-    window.addEventListener("touchmove", scrollEvent, { passive: false });
+    container.addEventListener("touchmove", stopScrollEvent);
     scrollable.classList.add("d-none");
     pinned.classList.remove("d-none");
   }
@@ -315,13 +314,6 @@ function setScoringButton(
             const top = next.getBoundingClientRect().top +
               document.documentElement.scrollTop - headerHeight;
             window.scrollTo({ top: top, behavior: "smooth" });
-          } else {
-            window.removeEventListener("touchstart", scrollEvent, {
-              passive: false,
-            });
-            window.removeEventListener("touchmove", scrollEvent, {
-              passive: false,
-            });
           }
         }
         let clearedKanjis = localStorage.getItem("touch-abc");
@@ -684,15 +676,9 @@ function initQuery() {
     });
   }
 }
-// https://qiita.com/noraworld/items/2834f2e6f064e6f6d41a
-// https://webinlet.com/2020/ios11以降でピンチインアウト拡大縮小禁止
-// 手を置いた時の誤爆を防ぎつつスクロールは許可
-function scrollEvent(e) {
-  if (
-    !["MAIN", "PROBLEM-BOX", "A", "BUTTON", "path"].includes(e.target.tagName)
-  ) {
-    e.preventDefault();
-  }
+
+function stopScrollEvent(e) {
+  e.preventDefault();
 }
 
 function getGlobalCSS() {
