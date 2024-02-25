@@ -313,7 +313,7 @@ function setScoringButton(
             const headerHeight = document.getElementById("header").offsetHeight;
             const top = next.getBoundingClientRect().top +
               document.documentElement.scrollTop - headerHeight;
-            window.scrollTo({ top: top, behavior: "smooth" });
+            globalThis.scrollTo({ top: top, behavior: "smooth" });
           }
         }
         let clearedKanjis = localStorage.getItem("touch-abc");
