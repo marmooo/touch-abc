@@ -7,7 +7,9 @@ loadAudio("correctAll", "/touch-abc/mp3/correct1.mp3");
 loadAudio("incorrect", "/touch-abc/mp3/incorrect1.mp3");
 const canvasSize = 140;
 const maxWidth = 4;
+const repeatCount = 3;
 let level = 2;
+let clearCount = 0;
 let fontFamily = localStorage.getItem("touch-abc-font");
 if (!fontFamily) {
   fontFamily = "Aref Ruqaa";
@@ -79,6 +81,18 @@ function toggleScroll() {
     window.addEventListener("touchmove", scrollEvent, { passive: false });
     scrollable.classList.add("d-none");
     pinned.classList.remove("d-none");
+  }
+}
+
+function toggleVoice() {
+  const voiceOn = document.getElementById("voiceOn");
+  const voiceOff = document.getElementById("voiceOff");
+  if (voiceOn.classList.contains("d-none")) {
+    voiceOn.classList.remove("d-none");
+    voiceOff.classList.add("d-none");
+  } else {
+    voiceOn.classList.add("d-none");
+    voiceOff.classList.remove("d-none");
   }
 }
 
@@ -289,9 +303,13 @@ function setScoringButton(
     getProblemScores(tegakiPanel, objects, tegakiPads).then(
       (scores) => {
         if (scores.every((score) => score >= 80)) {
+          clearCount += 1;
           problemBox.shadowRoot.querySelector(".guard").style.height = "100%";
           const next = problemBox.nextElementSibling;
           if (next) {
+            if (!document.getElementById("voiceOn").classList.contains("d-none")) {
+              loopVoice(kanjis[clearCount].toLowerCase(), repeatCount);
+            }
             next.shadowRoot.querySelector(".guard").style.height = "0";
             const headerHeight = document.getElementById("header").offsetHeight;
             const top = next.getBoundingClientRect().top +
@@ -409,16 +427,19 @@ function loadVoices() {
 }
 loadVoices();
 
+function loopVoice(text, n) {
+  const msg = new SpeechSynthesisUtterance(text);
+  msg.voice = englishVoices[Math.floor(Math.random() * englishVoices.length)];
+  msg.lang = "en-US";
+  for (let i = 0; i < n; i++) {
+    speechSynthesis.speak(msg);
+  }
+}
+
 function setSound(tehonPanel, object, kanji) {
   const pos = parseInt(object.dataset.pos);
   const sound = tehonPanel.children[pos].shadowRoot.querySelector(".sound");
-  const lower = kanji.toLowerCase();
-  sound.onclick = () => {
-    const msg = new SpeechSynthesisUtterance(lower);
-    msg.voice = englishVoices[Math.floor(Math.random() * englishVoices.length)];
-    msg.lang = "en-US";
-    speechSynthesis.speak(msg);
-  };
+  sound.onclick = () => loopVoice(kanji.toLowerCase(), repeatCount);
 }
 
 function loadProblem(problem, answer) {
@@ -595,7 +616,6 @@ function report() {
 }
 
 function convUpperLower(str) {
-  a;
   res = "";
   for (let i = 0; i < str.length; ++i) {
     c = str[i];
@@ -642,6 +662,7 @@ function initQueryBase() {
       problems1 = lowers;
       problems2 = uppers;
     }
+    kanjis = lowers;
   }
   loadDrill(problems1, problems2);
   document.getElementById("problems").children[0].shadowRoot.querySelector(
@@ -696,6 +717,7 @@ initQuery();
 
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("toggleScroll").onclick = toggleScroll;
+document.getElementById("toggleVoice").onclick = toggleVoice;
 document.getElementById("hint").onclick = toggleHint;
 document.getElementById("reportButton").onclick = report;
 document.addEventListener("click", unlockAudio, {
