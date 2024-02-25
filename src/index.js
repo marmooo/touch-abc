@@ -35,7 +35,7 @@ function selectFontFromURL() {
     document.getElementById("fontLoadError").classList.add("d-none");
     document.getElementById("fontLoading").classList.remove("d-none");
     const fontFace = new FontFace("url", `url(${url})`);
-    fontFace.load().then(function () {
+    fontFace.load().then(() => {
       document.fonts.add(fontFace);
       localStorage.setItem("touch-abc-font", url);
       document.getElementById("selectedFont").style.fontFamily = "url";
