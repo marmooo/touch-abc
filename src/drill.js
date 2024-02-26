@@ -71,13 +71,12 @@ function toggleHint(obj) {
 function toggleScroll() {
   const scrollable = document.getElementById("scrollable");
   const pinned = document.getElementById("pinned");
-  const container = document.getElementById("container");
   if (scrollable.classList.contains("d-none")) {
-    container.removeEventListener("touchmove", stopScrollEvent);
+    document.body.style.overflow = "visible";
     scrollable.classList.remove("d-none");
     pinned.classList.add("d-none");
   } else {
-    container.addEventListener("touchmove", stopScrollEvent);
+    document.body.style.overflow = "hidden";
     scrollable.classList.add("d-none");
     pinned.classList.remove("d-none");
   }
@@ -677,10 +676,6 @@ function initQuery() {
       initQueryBase();
     });
   }
-}
-
-function stopScrollEvent(e) {
-  e.preventDefault();
 }
 
 function getGlobalCSS() {
