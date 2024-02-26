@@ -1,4 +1,3 @@
-let englishVoices = [];
 const audioContext = new AudioContext();
 const audioBufferCache = {};
 loadAudio("stupid", "/touch-abc/mp3/stupid5.mp3");
@@ -10,10 +9,12 @@ const maxWidth = 4;
 const repeatCount = 3;
 let level = 2;
 let clearCount = 0;
+let kanjis = "";
+let mode = "uu";
 let fontFamily = localStorage.getItem("touch-abc-font");
-if (!fontFamily) {
-  fontFamily = "Aref Ruqaa";
-}
+if (!fontFamily) fontFamily = "Aref Ruqaa";
+let englishVoices = [];
+loadVoices();
 loadConfig();
 
 function loadConfig() {
@@ -69,16 +70,16 @@ function toggleHint(obj) {
 }
 
 function toggleScroll() {
-  const scrollable = document.getElementById("scrollable");
-  const pinned = document.getElementById("pinned");
-  if (scrollable.classList.contains("d-none")) {
+  const scrollOn = document.getElementById("scrollOn");
+  const scrollOff = document.getElementById("scrollOff");
+  if (scrollOn.classList.contains("d-none")) {
     document.body.style.overflow = "visible";
-    scrollable.classList.remove("d-none");
-    pinned.classList.add("d-none");
+    scrollOn.classList.remove("d-none");
+    scrollOff.classList.add("d-none");
   } else {
     document.body.style.overflow = "hidden";
-    scrollable.classList.add("d-none");
-    pinned.classList.remove("d-none");
+    scrollOn.classList.add("d-none");
+    scrollOff.classList.remove("d-none");
   }
 }
 
@@ -418,7 +419,6 @@ function loadVoices() {
       .filter((voice) => !jokeVoices.includes(voice.voiceURI));
   });
 }
-loadVoices();
 
 function loopVoice(text, n) {
   const msg = new SpeechSynthesisUtterance(text);
@@ -623,8 +623,6 @@ function convUpperLower(str) {
   return res;
 }
 
-let kanjis = "";
-let mode = "uu";
 function initQueryBase() {
   let problems1, problems2;
   const query = new URLSearchParams(location.search);
