@@ -353,9 +353,8 @@ function setEraser(tegakiPad, tegakiPanel, tehonPanel, object) {
         tegakiPad.clear();
       }
       const pos = parseInt(object.dataset.pos);
-      const scoreObj = tegakiPanel.children[pos].shadowRoot.querySelector(
-        ".score",
-      );
+      const scoreObj = tegakiPanel.children[pos]
+        .shadowRoot.querySelector(".score");
       scoreObj.classList.add("d-none");
       if (localStorage.getItem("hint") != 1) {
         object.style.visibility = "hidden";
@@ -656,9 +655,8 @@ function initQueryBase() {
     kanjis = lowers;
   }
   loadDrill(problems1, problems2);
-  document.getElementById("problems").children[0].shadowRoot.querySelector(
-    ".guard",
-  ).style.height = "0";
+  document.getElementById("problems").children[0]
+    .shadowRoot.querySelector(".guard").style.height = "0";
 }
 
 function initQuery() {
