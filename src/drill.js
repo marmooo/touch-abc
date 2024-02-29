@@ -212,12 +212,7 @@ function estimateFontWidth(ctx, kanji, spacing, fontSize) {
 function drawFont(canvas, kanji, loadCanvas) {
   const ctx = canvas.getContext("2d");
   const fontSize = canvasSize * 0.8;
-  try {
-    new URL(fontFamily);
-    ctx.font = fontSize + "px url";
-  } catch {
-    ctx.font = fontSize + 'px "' + fontFamily + '"';
-  }
+  ctx.font = `${fontSize}px "${fontFamily}"`;
   // measureText はSafari の推定精度は低めで、右寄りにすると消しゴムに影響する
   // やや左寄りでも問題ないので、必ず枠内に収まるように多少の補正を加える
   const width = ctx.measureText(kanji).width * 0.9;
@@ -660,18 +655,9 @@ function initQueryBase() {
 }
 
 function initQuery() {
-  try {
-    new URL(fontFamily);
-    const fontFace = new FontFace("url", `url(${fontFamily}`);
-    fontFace.load().then(() => {
-      document.fonts.add(fontFace);
-      initQueryBase();
-    });
-  } catch {
-    document.fonts.ready.then(() => {
-      initQueryBase();
-    });
-  }
+  document.fonts.load("16px " + fontFamily).then(() => {
+    initQueryBase();
+  });
 }
 
 function getGlobalCSS() {
