@@ -7,7 +7,3 @@
 ```
 bash build.sh
 ```
-
-## License
-
-MIT
