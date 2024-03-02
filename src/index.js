@@ -50,8 +50,9 @@ async function loadGoogleFonts(fontFamily) {
   }
 }
 
-async function selectFontFromURL(event) {
-  event.target.classList.add("disabled");
+async function selectFontFromURL() {
+  const button = document.getElementById("selectFontFromURL");
+  button.classList.add("disabled");
   const fontURL = document.getElementById("fontURL").value;
   try {
     const url = new URL(fontURL);
@@ -76,7 +77,7 @@ async function selectFontFromURL(event) {
     console.log(err);
     document.getElementById("fontLoadError").classList.remove("d-none");
   }
-  event.target.classList.remove("disabled");
+  button.classList.remove("disabled");
 }
 
 function selectFont(event) {
@@ -102,9 +103,7 @@ function setFontSelector() {
   }
   document.getElementById("selectedFont").style.fontFamily = selectedFontName;
   document.getElementById("fontURL").addEventListener("keydown", (event) => {
-    if (event.key == "Enter") {
-      selectFontFromURL(document.getElementById("fontURL"));
-    }
+    if (event.key == "Enter") selectFontFromURL();
   });
 }
 
@@ -186,4 +185,4 @@ document.getElementById("search").addEventListener("keydown", (event) => {
     const words = event.target.value;
     location.href = `/touch-abc/drill/?q=${words}`;
   }
-}, false);
+});
