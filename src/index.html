@@ -118,15 +118,14 @@
             <div class="input-group">
               <span class="input-group-text">URLから選択:</span>
               <input id="fontURL" type="text" class="form-control" placeholder="https://fonts.googleapis.com/css2?family=Roboto">
-              <button id="selectFontFromURL" class="btn btn-outline-secondary" type="button">参照</button>
+              <button id="selectFontFromURL" class="btn btn-outline-secondary" type="button">
+                <span id="fontLoading" class="d-none spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span class="visually-hidden">Loading...</span>
+                参照
+              </button>
             </div>
             <div id="fontLoadError" class="alert alert-warning text-center d-none">
               フォントのURLを入力してください (例: .ttf, .woff, .woff2, Google Fonts)
-            </div>
-            <div id="fontLoading" class="text-center d-none">
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
             </div>
           </div>
         </div>

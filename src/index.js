@@ -12,6 +12,10 @@ function loadConfig() {
     const level = parseInt(localStorage.getItem("touch-abc-level"));
     document.getElementById("levelOption").options[level].selected = true;
   }
+  if (localStorage.getItem("touch-abc-font")) {
+    const fontURL = localStorage.getItem("touch-abc-font");
+    selectFontFromURLBase(fontURL);
+  }
   if (localStorage.getItem("furigana") == 1) {
     const obj = document.getElementById("addFurigana");
     addFurigana(obj);
@@ -50,14 +54,10 @@ async function loadGoogleFonts(fontFamily) {
   }
 }
 
-async function selectFontFromURL() {
-  const button = document.getElementById("selectFontFromURL");
-  button.classList.add("disabled");
-  const fontURL = document.getElementById("fontURL").value;
+async function selectFontFromURLBase(fontURL) {
   try {
     const url = new URL(fontURL);
     document.getElementById("fontLoadError").classList.add("d-none");
-    document.getElementById("fontLoading").classList.remove("d-none");
     if (url.host == googleFontsURL.host) {
       const fontFamily = new URLSearchParams(url.search).get("family");
       const formattedURL = getGoogleFontsURL(fontFamily);
@@ -72,12 +72,21 @@ async function selectFontFromURL() {
       localStorage.setItem("touch-abc-font", url);
       document.getElementById("selectedFont").style.fontFamily = fontFamily;
     }
-    document.getElementById("fontLoading").classList.add("d-none");
   } catch (err) {
     console.log(err);
     document.getElementById("fontLoadError").classList.remove("d-none");
   }
+}
+
+async function selectFontFromURL() {
+  const button = document.getElementById("selectFontFromURL");
+  const fontLoading = document.getElementById("fontLoading");
+  button.classList.add("disabled");
+  fontLoading.classList.remove("d-none");
+  const fontURL = document.getElementById("fontURL").value;
+  await selectFontFromURLBase(fontURL);
   button.classList.remove("disabled");
+  fontLoading.classList.add("d-none");
 }
 
 function selectFont(event) {
@@ -176,8 +185,8 @@ document.getElementById("addFurigana").onclick = addFurigana;
 document.getElementById("generateDrill").onclick = generateDrill;
 document.getElementById("deleteData").onclick = deleteData;
 document.getElementById("selectFontFromURL").onclick = selectFontFromURL;
-[...fontsCarousel.getElementsByClassName("selectFont")].forEach((obj) => {
-  obj.onclick = selectFont;
+[...fontsCarousel.getElementsByClassName("selectFont")].forEach((node) => {
+  node.onclick = selectFont;
 });
 document.getElementById("levelOption").onchange = changeLevel;
 document.getElementById("search").addEventListener("keydown", (event) => {
