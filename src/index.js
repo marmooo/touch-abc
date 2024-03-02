@@ -50,8 +50,8 @@ async function loadGoogleFonts(fontFamily) {
   }
 }
 
-async function selectFontFromURL() {
-  this.classList.add("disabled");
+async function selectFontFromURL(event) {
+  event.target.classList.add("disabled");
   const fontURL = document.getElementById("fontURL").value;
   try {
     const url = new URL(fontURL);
@@ -76,11 +76,11 @@ async function selectFontFromURL() {
     console.log(err);
     document.getElementById("fontLoadError").classList.remove("d-none");
   }
-  this.classList.remove("disabled");
+  event.target.classList.remove("disabled");
 }
 
-function selectFont() {
-  const id = this.getAttribute("id");
+function selectFont(event) {
+  const id = event.target.getAttribute("id");
   const fontFamily = id.replace(/-/g, " ");
   const url = getGoogleFontsURL(fontFamily);
   localStorage.setItem("touch-abc-font", url);
@@ -88,9 +88,8 @@ function selectFont() {
 }
 
 function setFontSelector() {
-  const items = document.getElementById("fontSelector").getElementsByClassName(
-    "carousel-item",
-  );
+  const items = document.getElementById("fontSelector")
+    .getElementsByClassName("carousel-item");
   [...items].forEach((item) => {
     const preview = item.children[0];
     const id = preview.getAttribute("id");
@@ -102,15 +101,15 @@ function setFontSelector() {
     selectedFontName = "Aref Ruqaa";
   }
   document.getElementById("selectedFont").style.fontFamily = selectedFontName;
-  document.getElementById("fontURL").addEventListener("keydown", (e) => {
-    if (e.key == "Enter") {
+  document.getElementById("fontURL").addEventListener("keydown", (event) => {
+    if (event.key == "Enter") {
       selectFontFromURL(document.getElementById("fontURL"));
     }
   });
 }
 
-function changeLevel() {
-  const level = this.selectedIndex;
+function changeLevel(event) {
+  const level = event.target.selectedIndex;
   localStorage.setItem("touch-abc-level", level);
 }
 
