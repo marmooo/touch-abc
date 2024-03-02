@@ -7,12 +7,17 @@ loadAudio("incorrect", "/touch-abc/mp3/incorrect1.mp3");
 const canvasSize = 140;
 const maxWidth = 4;
 const repeatCount = 3;
+const defaultFontFamily = "Roboto";
+const googleFontsURL = new URL("https://fonts.googleapis.com/css2");
+const googleFontsParams = new URLSearchParams();
+googleFontsParams.set("family", defaultFontFamily);
+googleFontsParams.set("display", "swap");
+googleFontsURL.search = googleFontsParams;
+let fontFamily = defaultFontFamily;
 let level = 2;
 let clearCount = 0;
 let kanjis = "";
 let mode = "uu";
-let fontFamily = localStorage.getItem("touch-abc-font");
-if (!fontFamily) fontFamily = "Aref Ruqaa";
 let englishVoices = [];
 loadVoices();
 loadConfig();
@@ -212,7 +217,7 @@ function estimateFontWidth(ctx, kanji, spacing, fontSize) {
 function drawFont(canvas, kanji, loadCanvas) {
   const ctx = canvas.getContext("2d");
   const fontSize = canvasSize * 0.8;
-  ctx.font = `${fontSize}px "${fontFamily}"`;
+  ctx.font = `${fontSize}px ${fontFamily}`;
   // measureText はSafari の推定精度は低めで、右寄りにすると消しゴムに影響する
   // やや左寄りでも問題ないので、必ず枠内に収まるように多少の補正を加える
   const width = ctx.measureText(kanji).width * 0.9;
@@ -236,13 +241,13 @@ function loadFont(kanji, kanjiId, parentNode, pos, loadCanvas) {
   boxes.push(box);
   // // SVG はセキュリティ上 Web フォントは dataURI で埋め込む必要がある
   // // 重過ぎるので canvas でレンダリングすべき
-  // let object = box.shadowRoot.querySelector('svg');
-  // let text = object.querySelector('text');
+  // let object = box.shadowRoot.querySelector("svg");
+  // let text = object.querySelector("text");
   // text.textContent = kanji;
-  // text.setAttribute('font-family', fontFamily);
+  // text.setAttribute("font-family", "abc");
   // if (loadCanvas) {
-  //   text.setAttribute('fill', 'lightgray');
-  //   text.setAttribute('font-weight', 900);
+  //   text.setAttribute("fill", "lightgray");
+  //   text.setAttribute("font-weight", 900);
   // }
   const object = box.shadowRoot.querySelector(".tehon");
   object.setAttribute("alt", kanji);
@@ -654,10 +659,43 @@ function initQueryBase() {
     .shadowRoot.querySelector(".guard").style.height = "0";
 }
 
-function initQuery() {
-  document.fonts.load("16px " + fontFamily).then(() => {
-    initQueryBase();
-  });
+async function loadGoogleFonts(fontFamily) {
+  const text = [...new Set(Array.from(kanjis))];
+  const params = new URLSearchParams();
+  params.set("family", fontFamily);
+  params.set("text", text);
+  params.set("display", "swap");
+  googleFontsURL.search = params;
+
+  const response = await fetch(googleFontsURL);
+  const css = await response.text();
+  const matchUrls = css.match(/url\(.+?\)/g);
+  for (const url of matchUrls) {
+    const font = new FontFace(fontFamily, url);
+    await font.load();
+    document.fonts.add(font);
+  }
+}
+
+async function initQuery() {
+  let fontURL = localStorage.getItem("touch-abc-font");
+  if (!fontURL) fontURL = googleFontsURL.toString();
+  try {
+    const url = new URL(fontURL);
+    if (url.host == googleFontsURL.host) {
+      const params = url.searchParams;
+      fontFamily = params.get("family");
+      await loadGoogleFonts(fontFamily);
+      initQueryBase();
+    } else {
+      const fontFace = new FontFace("abc", `url(${fontURL})`);
+      await fontFace.load();
+      document.fonts.add(fontFace);
+      initQueryBase();
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 function getGlobalCSS() {

@@ -1,3 +1,5 @@
+const previewText = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz";
+const googleFontsURL = new URL("https://fonts.googleapis.com/css2");
 const uppers = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 const lowers = Array.from("abcdefghijklmnopqrstuvwzyz");
 loadConfig();
@@ -27,21 +29,51 @@ function toggleDarkMode() {
   }
 }
 
-function selectFontFromURL() {
+function getGoogleFontsURL(fontFamily) {
+  const params = new URLSearchParams();
+  params.set("family", fontFamily);
+  params.set("text", previewText);
+  params.set("display", "swap");
+  googleFontsURL.search = params;
+  return googleFontsURL.toString();
+}
+
+async function loadGoogleFonts(fontFamily) {
+  const url = getGoogleFontsURL(fontFamily);
+  const response = await fetch(url);
+  const css = await response.text();
+  const matchUrls = css.match(/url\(.+?\)/g);
+  for (const url of matchUrls) {
+    const font = new FontFace(fontFamily, url);
+    await font.load();
+    document.fonts.add(font);
+  }
+}
+
+async function selectFontFromURL() {
   this.classList.add("disabled");
-  const url = document.getElementById("fontURL").value;
+  const fontURL = document.getElementById("fontURL").value;
   try {
-    new URL(url);
+    const url = new URL(fontURL);
     document.getElementById("fontLoadError").classList.add("d-none");
     document.getElementById("fontLoading").classList.remove("d-none");
-    const fontFace = new FontFace("url", `url(${url})`);
-    fontFace.load().then(() => {
+    if (url.host == googleFontsURL.host) {
+      const fontFamily = new URLSearchParams(url.search).get("family");
+      const formattedURL = getGoogleFontsURL(fontFamily);
+      await loadGoogleFonts(fontFamily);
+      localStorage.setItem("touch-abc-font", formattedURL);
+      document.getElementById("selectedFont").style.fontFamily = fontFamily;
+    } else { // .ttf, .woff, .woff2
+      const fontFamily = "abc";
+      const fontFace = new FontFace(fontFamily, `url(${url})`);
+      await fontFace.load();
       document.fonts.add(fontFace);
       localStorage.setItem("touch-abc-font", url);
-      document.getElementById("selectedFont").style.fontFamily = "url";
-      document.getElementById("fontLoading").classList.add("d-none");
-    });
-  } catch {
+      document.getElementById("selectedFont").style.fontFamily = fontFamily;
+    }
+    document.getElementById("fontLoading").classList.add("d-none");
+  } catch (err) {
+    console.log(err);
     document.getElementById("fontLoadError").classList.remove("d-none");
   }
   this.classList.remove("disabled");
@@ -50,7 +82,8 @@ function selectFontFromURL() {
 function selectFont() {
   const id = this.getAttribute("id");
   const fontFamily = id.replace(/-/g, " ");
-  localStorage.setItem("touch-abc-font", fontFamily);
+  const url = getGoogleFontsURL(fontFamily);
+  localStorage.setItem("touch-abc-font", url);
   document.getElementById("selectedFont").style.fontFamily = fontFamily;
 }
 
