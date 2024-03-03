@@ -102,20 +102,6 @@ function selectFont(event) {
   document.getElementById("selectedFont").style.fontFamily = fontFamily;
 }
 
-function setFontSelector() {
-  const items = document.getElementById("fontSelector")
-    .getElementsByClassName("carousel-item");
-  [...items].forEach((item) => {
-    const preview = item.children[0];
-    const id = preview.getAttribute("id");
-    const fontFamily = id.replace(/-/g, " ");
-    preview.style.fontFamily = fontFamily;
-  });
-  let fontURL = localStorage.getItem("touch-abc-font");
-  if (!fontURL) fontURL = googleFontsURL.toString();
-  document.getElementById("selectedFont").style.fontFamily = selectedFontName;
-}
-
 function changeLevel(event) {
   const level = event.target.selectedIndex;
   localStorage.setItem("touch-abc-level", level);
@@ -175,7 +161,6 @@ function setProblems() {
 
 setProblems();
 setCleared();
-setFontSelector();
 
 const fontsCarousel = document.getElementById("fontsCarousel");
 new bootstrap.Carousel(fontsCarousel);
