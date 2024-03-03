@@ -14,10 +14,10 @@ googleFontsParams.set("family", defaultFontFamily);
 googleFontsParams.set("display", "swap");
 googleFontsURL.search = googleFontsParams;
 let fontFamily = defaultFontFamily;
-let level = 2;
-let clearCount = 0;
 let kanjis = "";
 let mode = "uu";
+let level = 2;
+let clearCount = 0;
 let englishVoices = [];
 loadVoices();
 loadConfig();
@@ -579,17 +579,15 @@ function report() {
   if (score >= 80) {
     playAudio("correctAll");
     let clearedKanjis = localStorage.getItem("touch-abc");
-    if (kanjis) {
-      if (clearedKanjis) {
-        kanjis.split("").forEach((kanji) => {
-          if (!clearedKanjis.includes(kanji)) {
-            clearedKanjis += kanji;
-          }
-        });
-        localStorage.setItem("touch-abc", clearedKanjis);
-      } else {
-        localStorage.setItem("touch-abc", kanjis);
-      }
+    if (clearedKanjis) {
+      kanjis.split("").forEach((kanji) => {
+        if (!clearedKanjis.includes(kanji)) {
+          clearedKanjis += kanji;
+        }
+      });
+      localStorage.setItem("touch-abc", clearedKanjis);
+    } else {
+      localStorage.setItem("touch-abc", kanjis);
     }
     document.getElementById("report").classList.add("d-none");
     document.getElementById("correctReport").classList.remove("d-none");
@@ -622,11 +620,26 @@ function convUpperLower(str) {
   return res;
 }
 
-function initQueryBase() {
+async function loadGoogleFonts(fontFamily) {
+  const text = [...new Set(kanjis)].join("");
+  const params = new URLSearchParams();
+  params.set("family", fontFamily);
+  params.set("text", text);
+  params.set("display", "swap");
+  googleFontsURL.search = params;
+
+  const response = await fetch(googleFontsURL);
+  const css = await response.text();
+  const matchUrls = css.match(/url\(.+?\)/g);
+  for (const url of matchUrls) {
+    const font = new FontFace(fontFamily, url);
+    await font.load();
+    document.fonts.add(font);
+  }
+}
+
+function initProblems() {
   let problems1, problems2;
-  const query = new URLSearchParams(location.search);
-  mode = query.get("mode");
-  kanjis = query.get("q");
   if (kanjis) {
     if (mode == "conv") {
       const conved = convUpperLower(kanjis);
@@ -652,47 +665,31 @@ function initQueryBase() {
       problems1 = lowers;
       problems2 = uppers;
     }
-    kanjis = lowers;
+    kanjis = lowers.join("");
   }
   loadDrill(problems1, problems2);
   document.getElementById("problems").children[0]
     .shadowRoot.querySelector(".guard").style.height = "0";
 }
 
-async function loadGoogleFonts(fontFamily) {
-  const text = [...new Set(Array.from(kanjis))];
-  const params = new URLSearchParams();
-  params.set("family", fontFamily);
-  params.set("text", text);
-  params.set("display", "swap");
-  googleFontsURL.search = params;
-
-  const response = await fetch(googleFontsURL);
-  const css = await response.text();
-  const matchUrls = css.match(/url\(.+?\)/g);
-  for (const url of matchUrls) {
-    const font = new FontFace(fontFamily, url);
-    await font.load();
-    document.fonts.add(font);
-  }
-}
-
 async function initQuery() {
+  const searchParams = new URL(location.href).searchParams;
+  kanjis = searchParams.get("q");
+  mode = searchParams.get("mode");
   let fontURL = localStorage.getItem("touch-abc-font");
   if (!fontURL) fontURL = googleFontsURL.toString();
   try {
     const url = new URL(fontURL);
     if (url.host == googleFontsURL.host) {
-      const params = url.searchParams;
-      fontFamily = params.get("family");
+      fontFamily = url.searchParams.get("family");
       await loadGoogleFonts(fontFamily);
-      initQueryBase();
     } else {
-      const fontFace = new FontFace("abc", `url(${fontURL})`);
+      fontFamily = "abc";
+      const fontFace = new FontFace(fontFamily, `url(${fontURL})`);
       await fontFace.load();
       document.fonts.add(fontFace);
-      initQueryBase();
     }
+    initProblems();
   } catch (err) {
     console.log(err);
   }
