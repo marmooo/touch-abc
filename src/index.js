@@ -1,5 +1,10 @@
-const previewText = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz";
+const defaultFontFamily = "Roboto";
 const googleFontsURL = new URL("https://fonts.googleapis.com/css2");
+const googleFontsParams = new URLSearchParams();
+googleFontsParams.set("family", defaultFontFamily);
+googleFontsParams.set("display", "swap");
+googleFontsURL.search = googleFontsParams;
+const previewText = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz";
 const uppers = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 const lowers = Array.from("abcdefghijklmnopqrstuvwzyz");
 loadConfig();
@@ -106,14 +111,9 @@ function setFontSelector() {
     const fontFamily = id.replace(/-/g, " ");
     preview.style.fontFamily = fontFamily;
   });
-  let selectedFontName = localStorage.getItem("touch-abc-font");
-  if (!selectedFontName) {
-    selectedFontName = "Aref Ruqaa";
-  }
+  let fontURL = localStorage.getItem("touch-abc-font");
+  if (!fontURL) fontURL = googleFontsURL.toString();
   document.getElementById("selectedFont").style.fontFamily = selectedFontName;
-  document.getElementById("fontURL").addEventListener("keydown", (event) => {
-    if (event.key == "Enter") selectFontFromURL();
-  });
 }
 
 function changeLevel(event) {
@@ -194,4 +194,7 @@ document.getElementById("search").addEventListener("keydown", (event) => {
     const words = event.target.value;
     location.href = `/touch-abc/drill/?q=${words}`;
   }
+});
+document.getElementById("fontURL").addEventListener("keydown", (event) => {
+  if (event.key == "Enter") selectFontFromURL();
 });
