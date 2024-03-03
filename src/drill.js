@@ -454,12 +454,6 @@ function loadProblem(problem, answer) {
   document.getElementById("problems").appendChild(problemBox);
 }
 
-function loadDrill(problems1, problems2) {
-  for (let i = 0; i < problems1.length; i++) {
-    loadProblem(problems1[i], problems2[i]);
-  }
-}
-
 function toggleAllStroke() {
   const problems = document.getElementById("problems").children;
   for (const problem of problems) {
@@ -667,15 +661,21 @@ function initProblems() {
     }
     kanjis = lowers.join("");
   }
-  loadDrill(problems1, problems2);
+  initDrill(problems1, problems2);
+}
+
+function initDrill(problems1, problems2) {
+  for (let i = 0; i < problems1.length; i++) {
+    loadProblem(problems1[i], problems2[i]);
+  }
   document.getElementById("problems").children[0]
     .shadowRoot.querySelector(".guard").style.height = "0";
 }
 
 async function initQuery() {
-  const searchParams = new URL(location.href).searchParams;
-  kanjis = searchParams.get("q");
-  mode = searchParams.get("mode");
+  const params = new URLSearchParams(location.search);
+  kanjis = params.get("q");
+  mode = params.get("mode");
   let fontURL = localStorage.getItem("touch-abc-font");
   if (!fontURL) fontURL = googleFontsURL.toString();
   try {
@@ -690,6 +690,7 @@ async function initQuery() {
       document.fonts.add(fontFace);
     }
     initProblems();
+    initDrill();
   } catch (err) {
     console.log(err);
   }

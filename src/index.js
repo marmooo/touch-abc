@@ -5,8 +5,8 @@ googleFontsParams.set("family", defaultFontFamily);
 googleFontsParams.set("display", "swap");
 googleFontsURL.search = googleFontsParams;
 const previewText = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz";
-const uppers = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-const lowers = Array.from("abcdefghijklmnopqrstuvwzyz");
+const uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const lowers = "abcdefghijklmnopqrstuvwzyz";
 loadConfig();
 
 function loadConfig() {
@@ -149,8 +149,8 @@ function generateDrill() {
 function setProblems() {
   let html = "";
   const problems = document.getElementById("problems");
-  const alphabets = uppers.concat(lowers);
-  alphabets.forEach((alphabet) => {
+  const alphabets = uppers + lowers;
+  Array.from(alphabets).forEach((alphabet) => {
     const q = alphabet.repeat(6);
     const url = `/touch-abc/drill/?q=${q}`;
     const klass = "me-1 mb-1 btn btn-sm btn-outline-secondary";
