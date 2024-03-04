@@ -632,7 +632,7 @@ async function loadGoogleFonts(fontFamily) {
   }
 }
 
-function initProblems() {
+function initDrill() {
   let problems1, problems2;
   if (kanjis) {
     if (mode == "conv") {
@@ -661,10 +661,6 @@ function initProblems() {
     }
     kanjis = lowers.join("");
   }
-  initDrill(problems1, problems2);
-}
-
-function initDrill(problems1, problems2) {
   for (let i = 0; i < problems1.length; i++) {
     loadProblem(problems1[i], problems2[i]);
   }
@@ -672,10 +668,13 @@ function initDrill(problems1, problems2) {
     .shadowRoot.querySelector(".guard").style.height = "0";
 }
 
-async function initQuery() {
+function initQuery() {
   const params = new URLSearchParams(location.search);
   kanjis = params.get("q");
   mode = params.get("mode");
+}
+
+async function initFonts() {
   let fontURL = localStorage.getItem("touch-abc-font");
   if (!fontURL) fontURL = googleFontsURL.toString();
   try {
@@ -689,8 +688,6 @@ async function initQuery() {
       await fontFace.load();
       document.fonts.add(fontFace);
     }
-    initProblems();
-    initDrill();
   } catch (err) {
     console.log(err);
   }
@@ -713,8 +710,10 @@ function getGlobalCSS() {
 }
 
 const boxes = [];
-const globalCSS = getGlobalCSS();
 initQuery();
+await initFonts();
+const globalCSS = getGlobalCSS();
+initDrill();
 
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("toggleScroll").onclick = toggleScroll;
