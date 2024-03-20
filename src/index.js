@@ -73,7 +73,7 @@ async function selectFontFromURLBase(fontURL) {
       document.getElementById("selectedFont").style.fontFamily = fontFamily;
     } else { // .ttf, .woff, .woff2
       const fontFamily = "abc";
-      const fontFace = new FontFace(fontFamily, `url(${url})`);
+      const fontFace = new globalThis.FontFace(fontFamily, `url(${url})`);
       await fontFace.load();
       document.fonts.add(fontFace);
       localStorage.setItem("touch-abc-font", url);
