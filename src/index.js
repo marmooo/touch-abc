@@ -1,3 +1,5 @@
+import { Carousel } from "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/+esm";
+
 const defaultFontFamily = "Roboto";
 const googleFontsURL = new URL("https://fonts.googleapis.com/css2");
 const googleFontsParams = new URLSearchParams();
@@ -163,7 +165,7 @@ setProblems();
 setCleared();
 
 const fontsCarousel = document.getElementById("fontsCarousel");
-new bootstrap.Carousel(fontsCarousel);
+new Carousel(fontsCarousel);
 
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("addFurigana").onclick = addFurigana;
