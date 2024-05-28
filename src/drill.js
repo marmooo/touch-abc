@@ -743,7 +743,5 @@ document.getElementById("toggleScroll").onclick = toggleScroll;
 document.getElementById("toggleVoice").onclick = toggleVoice;
 document.getElementById("hint").onclick = toggleHint;
 document.getElementById("reportButton").onclick = report;
-document.addEventListener("click", unlockAudio, {
-  once: true,
-  useCapture: true,
-});
+document.addEventListener("pointerdown", unlockAudio, { once: true });
+document.addEventListener("keydown", unlockAudio, { once: true });
