@@ -1,11 +1,7 @@
 import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.0.1/+esm";
 
-const audioContext = new globalThis.AudioContext();
+let audioContext;
 const audioBufferCache = {};
-loadAudio("stupid", "/touch-abc/mp3/stupid5.mp3");
-loadAudio("correct", "/touch-abc/mp3/correct3.mp3");
-loadAudio("correctAll", "/touch-abc/mp3/correct1.mp3");
-loadAudio("incorrect", "/touch-abc/mp3/incorrect1.mp3");
 const canvasSize = 140;
 const maxWidth = 4;
 const repeatCount = 3;
@@ -102,33 +98,58 @@ function toggleVoice() {
   }
 }
 
-async function playAudio(name, volume) {
-  const audioBuffer = await loadAudio(name, audioBufferCache[name]);
-  const sourceNode = audioContext.createBufferSource();
-  sourceNode.buffer = audioBuffer;
-  if (volume) {
-    const gainNode = audioContext.createGain();
-    gainNode.gain.value = volume;
-    gainNode.connect(audioContext.destination);
-    sourceNode.connect(gainNode);
-    sourceNode.start();
+function createAudioContext() {
+  if (globalThis.AudioContext) {
+    return new globalThis.AudioContext();
   } else {
-    sourceNode.connect(audioContext.destination);
-    sourceNode.start();
+    console.error("Web Audio API is not supported in this browser");
+    return null;
   }
 }
 
-async function loadAudio(name, url) {
-  if (audioBufferCache[name]) return audioBufferCache[name];
-  const response = await fetch(url);
-  const arrayBuffer = await response.arrayBuffer();
-  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-  audioBufferCache[name] = audioBuffer;
-  return audioBuffer;
+function unlockAudio() {
+  if (audioContext) {
+    audioContext.resume();
+  } else {
+    audioContext = createAudioContext();
+    loadAudio("stupid", "/touch-abc/mp3/stupid5.mp3");
+    loadAudio("correct", "/touch-abc/mp3/correct3.mp3");
+    loadAudio("correctAll", "/touch-abc/mp3/correct1.mp3");
+    loadAudio("incorrect", "/touch-abc/mp3/incorrect1.mp3");
+  }
+  document.removeEventListener("pointerdown", unlockAudio);
+  document.removeEventListener("keydown", unlockAudio);
 }
 
-function unlockAudio() {
-  audioContext.resume();
+async function loadAudio(name, url) {
+  if (!audioContext) return;
+  if (audioBufferCache[name]) return audioBufferCache[name];
+  try {
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    audioBufferCache[name] = audioBuffer;
+    return audioBuffer;
+  } catch (error) {
+    console.error(`Loading audio ${name} error:`, error);
+    throw error;
+  }
+}
+
+function playAudio(name, volume) {
+  if (!audioContext) return;
+  const audioBuffer = audioBufferCache[name];
+  if (!audioBuffer) {
+    console.error(`Audio ${name} is not found in cache`);
+    return;
+  }
+  const sourceNode = audioContext.createBufferSource();
+  sourceNode.buffer = audioBuffer;
+  const gainNode = audioContext.createGain();
+  if (volume) gainNode.gain.value = volume;
+  gainNode.connect(audioContext.destination);
+  sourceNode.connect(gainNode);
+  sourceNode.start();
 }
 
 class ProblemBox extends HTMLElement {
