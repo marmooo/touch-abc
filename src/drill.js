@@ -1,4 +1,4 @@
-import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.0.4/+esm";
+import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.0.7/+esm";
 
 let audioContext;
 const audioBufferCache = {};
