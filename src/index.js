@@ -1,4 +1,4 @@
-import { Carousel } from "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/+esm";
+import { Carousel } from "https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/+esm";
 
 const defaultFontFamily = "Roboto";
 const googleFontsURL = new URL("https://fonts.googleapis.com/css2");
