@@ -444,11 +444,10 @@ function loadVoices() {
 
 function loopVoice(text, n) {
   const msg = new globalThis.SpeechSynthesisUtterance(text);
+  text = new Array(n).fill(`${text}.`).join(" ");
   msg.voice = englishVoices[Math.floor(Math.random() * englishVoices.length)];
   msg.lang = "en-US";
-  for (let i = 0; i < n; i++) {
-    speechSynthesis.speak(msg);
-  }
+  speechSynthesis.speak(msg);
 }
 
 function setSound(tehonPanel, object, kanji) {
