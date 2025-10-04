@@ -321,37 +321,34 @@ function setScoringButton(
   word,
 ) {
   const scoring = problemBox.shadowRoot.querySelector(".scoring");
-  scoring.addEventListener("click", () => {
-    getProblemScores(tegakiPanel, objects, tegakiPads).then(
-      (scores) => {
-        if (scores.every((score) => score >= 80)) {
-          clearCount += 1;
-          problemBox.shadowRoot.querySelector(".guard").style.height = "100%";
-          const next = problemBox.nextElementSibling;
-          if (next) {
-            const voiceOff = document.getElementById("voiceOn")
-              .classList.contains("d-none");
-            if (!voiceOff) {
-              loopVoice(kanjis[clearCount].toLowerCase(), repeatCount);
-            }
-            next.shadowRoot.querySelector(".guard").style.height = "0";
-            const headerHeight = document.getElementById("header").offsetHeight;
-            const top = next.getBoundingClientRect().top +
-              document.documentElement.scrollTop - headerHeight;
-            globalThis.scrollTo({ top: top, behavior: "smooth" });
-          }
+  scoring.addEventListener("click", async () => {
+    const scores = await getProblemScores(tegakiPanel, objects, tegakiPads);
+    if (scores.every((score) => score >= 80)) {
+      clearCount += 1;
+      problemBox.shadowRoot.querySelector(".guard").style.height = "100%";
+      const next = problemBox.nextElementSibling;
+      if (next) {
+        const voiceOff = document.getElementById("voiceOn")
+          .classList.contains("d-none");
+        if (!voiceOff) {
+          loopVoice(kanjis[clearCount].toLowerCase(), repeatCount);
         }
-        let clearedKanjis = localStorage.getItem("touch-abc");
-        if (!clearedKanjis) clearedKanjis = "";
-        scores.forEach((score, i) => {
-          if (score < 40) {
-            // 点数があまりにも低いものは合格リストから除外
-            clearedKanjis = clearedKanjis.replace(word[i], "");
-          }
-        });
-        localStorage.setItem("touch-abc", clearedKanjis);
-      },
-    );
+        next.shadowRoot.querySelector(".guard").style.height = "0";
+        const headerHeight = document.getElementById("header").offsetHeight;
+        const top = next.getBoundingClientRect().top +
+          document.documentElement.scrollTop - headerHeight;
+        globalThis.scrollTo({ top: top, behavior: "smooth" });
+      }
+    }
+    let clearedKanjis = localStorage.getItem("touch-abc");
+    if (!clearedKanjis) clearedKanjis = "";
+    scores.forEach((score, i) => {
+      if (score < 40) {
+        // 点数があまりにも低いものは合格リストから除外
+        clearedKanjis = clearedKanjis.replace(word[i], "");
+      }
+    });
+    localStorage.setItem("touch-abc", clearedKanjis);
   });
 }
 
