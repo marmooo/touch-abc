@@ -1,4 +1,5 @@
 import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.1.1/+esm";
+import { createWorker } from "https://cdn.jsdelivr.net/npm/emoji-particle@0.0.4/+esm";
 
 let audioContext;
 const audioBufferCache = {};
@@ -15,6 +16,8 @@ let fontFamily = defaultFontFamily;
 let kanjis = "";
 let mode = "uu";
 let level = 2;
+const emojiParticle = initEmojiParticle();
+let consecutiveWins = 0;
 let clearCount = 0;
 let englishVoices = [];
 loadVoices();
@@ -150,6 +153,30 @@ function playAudio(name, volume) {
   gainNode.connect(audioContext.destination);
   sourceNode.connect(gainNode);
   sourceNode.start();
+}
+
+function initEmojiParticle() {
+  const canvas = document.createElement("canvas");
+  Object.assign(canvas.style, {
+    position: "fixed",
+    pointerEvents: "none",
+    top: "0px",
+    left: "0px",
+  });
+  canvas.width = document.documentElement.clientWidth;
+  canvas.height = document.documentElement.clientHeight;
+  document.body.prepend(canvas);
+
+  const offscreen = canvas.transferControlToOffscreen();
+  const worker = createWorker();
+  worker.postMessage({ type: "init", canvas: offscreen }, [offscreen]);
+
+  globalThis.addEventListener("resize", () => {
+    const width = document.documentElement.clientWidth;
+    const height = document.documentElement.clientHeight;
+    worker.postMessage({ type: "resize", width, height });
+  });
+  return { canvas, offscreen, worker };
 }
 
 class ProblemBox extends HTMLElement {
@@ -325,6 +352,17 @@ function setScoringButton(
     const scores = await getProblemScores(tegakiPanel, objects, tegakiPads);
     if (scores.every((score) => score >= 80)) {
       clearCount += 1;
+      consecutiveWins += scores.length;
+      for (let i = 0; i < consecutiveWins; i++) {
+        emojiParticle.worker.postMessage({
+          type: "spawn",
+          options: {
+            particleType: "popcorn",
+            originX: Math.random() * emojiParticle.canvas.width,
+            originY: Math.random() * emojiParticle.canvas.height,
+          },
+        });
+      }
       problemBox.shadowRoot.querySelector(".guard").style.height = "100%";
       const next = problemBox.nextElementSibling;
       if (next) {
@@ -339,6 +377,8 @@ function setScoringButton(
           document.documentElement.scrollTop - headerHeight;
         globalThis.scrollTo({ top: top, behavior: "smooth" });
       }
+    } else {
+      consecutiveWins = 0;
     }
     let clearedKanjis = localStorage.getItem("touch-abc");
     if (!clearedKanjis) clearedKanjis = "";
