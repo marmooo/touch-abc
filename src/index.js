@@ -23,11 +23,6 @@ function loadConfig() {
     const fontURL = localStorage.getItem("touch-abc-font");
     selectFontFromURLBase(fontURL);
   }
-  if (localStorage.getItem("furigana") == 1) {
-    const obj = document.getElementById("addFurigana");
-    addFurigana(obj);
-    obj.setAttribute("data-done", true);
-  }
 }
 
 function toggleDarkMode() {
@@ -109,20 +104,6 @@ function changeLevel(event) {
   localStorage.setItem("touch-abc-level", level);
 }
 
-function addFurigana() {
-  const obj = document.getElementById("addFurigana");
-  if (obj.getAttribute("data-done")) {
-    localStorage.setItem("furigana", 0);
-    location.reload();
-  } else {
-    import("https://marmooo.github.io/yomico/yomico.min.js").then((module) => {
-      module.yomico("/touch-abc/index.yomi");
-    });
-    localStorage.setItem("furigana", 1);
-    obj.setAttribute("data-done", true);
-  }
-}
-
 function setCleared() {
   const clearedKanjis = localStorage.getItem("touch-abc");
   if (clearedKanjis) {
@@ -168,7 +149,6 @@ const fontsCarousel = document.getElementById("fontsCarousel");
 new Carousel(fontsCarousel);
 
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
-document.getElementById("addFurigana").onclick = addFurigana;
 document.getElementById("generateDrill").onclick = generateDrill;
 document.getElementById("deleteData").onclick = deleteData;
 document.getElementById("selectFontFromURL").onclick = selectFontFromURL;
