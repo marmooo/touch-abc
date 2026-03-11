@@ -30,9 +30,6 @@ function loadConfig() {
   if (localStorage.getItem("touch-abc-level")) {
     level = parseInt(localStorage.getItem("touch-abc-level"));
   }
-  if (localStorage.getItem("furigana") == 1) {
-    addFurigana();
-  }
 }
 
 function toggleDarkMode() {
@@ -55,11 +52,6 @@ function toggleDarkMode() {
       });
     });
   }
-}
-
-async function addFurigana() {
-  const module = await import("https://marmooo.github.io/yomico/yomico.min.js");
-  module.yomico("/touch-abc/drill/index.yomi");
 }
 
 function toggleHint(obj) {
