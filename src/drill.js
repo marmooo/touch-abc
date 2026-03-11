@@ -24,9 +24,6 @@ loadVoices();
 loadConfig();
 
 function loadConfig() {
-  if (localStorage.getItem("darkMode") == 1) {
-    document.documentElement.setAttribute("data-bs-theme", "dark");
-  }
   if (localStorage.getItem("hint") == 1) {
     document.getElementById("hint").textContent = "EASY";
   }
@@ -38,19 +35,20 @@ function loadConfig() {
   }
 }
 
-// TODO: :host-context() is not supportted by Safari/Firefox now
 function toggleDarkMode() {
-  if (localStorage.getItem("darkMode") == 1) {
-    localStorage.setItem("darkMode", 0);
-    document.documentElement.setAttribute("data-bs-theme", "light");
+  const html = document.documentElement;
+  const newTheme = html.getAttribute("data-bs-theme") === "dark"
+    ? "light"
+    : "dark";
+  html.setAttribute("data-bs-theme", newTheme);
+  localStorage.setItem("darkMode", newTheme);
+  if (newTheme === "light") {
     boxes.forEach((box) => {
       [...box.shadowRoot.querySelectorAll("canvas")].forEach((canvas) => {
         canvas.removeAttribute("style");
       });
     });
   } else {
-    localStorage.setItem("darkMode", 1);
-    document.documentElement.setAttribute("data-bs-theme", "dark");
     boxes.forEach((box) => {
       [...box.shadowRoot.querySelectorAll("canvas")].forEach((canvas) => {
         canvas.setAttribute("style", "filter: invert(1) hue-rotate(180deg);");
