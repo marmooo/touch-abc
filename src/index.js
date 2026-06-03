@@ -132,7 +132,7 @@ function setProblems() {
   Array.from(alphabets).forEach((alphabet) => {
     const q = alphabet.repeat(6);
     const url = `/touch-abc/drill/?q=${q}`;
-    const klass = "me-1 mb-1 btn btn-sm btn-outline-secondary";
+    const klass = "btn btn-lg btn-outline-secondary";
     html += `<a href="${url}" class="${klass}">${alphabet}</a>`;
   });
   problems.innerHTML = html;
